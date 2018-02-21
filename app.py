@@ -82,16 +82,16 @@ def save_annotate():
     # request.formのMultiDictだと変なlist型になるので普通のdictにする
     val_dict = {key: val for key, val in request.form.items()}
 
-    update_sql = '''
+    update_sql = """
     UPDATE yuyu_data SET
     chara_num = {chara_num},
-    whos = "{whos}",
-    face_direction = "{face_direction}",
-    eyes = "{eyes}",
-    step1_inputer = "{step1_inputer}",
+    whos = '{whos}',
+    face_direction = '{face_direction}',
+    eyes = '{eyes}',
+    step1_inputer = '{step1_inputer}',
     step = 2
-    where koma_id = "{koma_id}"
-    '''.format(**val_dict)
+    where koma_id = '{koma_id}'
+    """.format(**val_dict)
 
     # db = get_db(app)
     db.engine.execute(update_sql)

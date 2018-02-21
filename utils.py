@@ -1,5 +1,5 @@
 def get_image_data(db, koma_id):
-    select_sql = 'SELECT img_path FROM yuyu_data WHERE koma_id = "{}"'.format(koma_id)
+    select_sql = "SELECT img_path FROM yuyu_data WHERE koma_id = '{}'".format(koma_id)
     cur = db.engine.execute(select_sql)
     data = cur.fetchone()
     return data
