@@ -7,7 +7,6 @@ from flask_s3 import FlaskS3
 # from bokeh.embed import components
 # from bokeh.plotting import figure
 
-# from utils import connect_db
 from utils import get_image_data
 from utils import get_step1_inputer_dict
 
@@ -30,6 +29,11 @@ db = SQLAlchemy(app)
 #     g.db.close()
 #     return response
 
+# @app.teardown_appcontext
+# def close_db(error):
+#     """Closes the database again at the end of the request."""
+#     if hasattr(g, 'sqlite_db'):
+#         g.sqlite_db.close()
 
 def get_avatar():
     return session.get('avatar', None)
@@ -43,16 +47,9 @@ def fetch_next_rand_id():
     return next_rand_id
 
 
-@app.teardown_appcontext
-def close_db(error):
-    """Closes the database again at the end of the request."""
-    if hasattr(g, 'sqlite_db'):
-        g.sqlite_db.close()
-
-
 @app.route('/')
 def top():
-    step1_inputer_dict = get_step1_inputer_dict(app)
+    step1_inputer_dict = get_step1_inputer_dict(db)
     next_rand_id = fetch_next_rand_id()
     return render_template('index.html', step1_inputer_dict=step1_inputer_dict,
                            next_rand_id=next_rand_id, avatar=get_avatar(),
