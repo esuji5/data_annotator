@@ -26,10 +26,11 @@ def get_cursor():
     return cursor, conn
 
 
-def get_image_data(app, koma_id):
-    db = get_db(app)
+# def get_image_data(app, koma_id):
+    # db = get_db(app)
+def get_image_data(db, koma_id):
     select_sql = 'SELECT img_path FROM yuyu_data WHERE koma_id = "{}"'.format(koma_id)
-    cur = db.execute(select_sql)
+    cur = db.engine.execute(select_sql)
     data = cur.fetchone()
     return data
 
@@ -37,7 +38,7 @@ def get_image_data(app, koma_id):
 def get_step1_inputer_dict(app):
     db = get_db(app)
     select_sql = 'SELECT step1_inputer, COUNT(step1_inputer) FROM yuyu_data GROUP BY step1_inputer'
-    cur = db.execute(select_sql)
+    cur = db.engine.execute(select_sql)
     data = cur.fetchall()
     step1_inputer_dict = {r['step1_inputer']: r['count(step1_inputer)'] for r in data}
     return step1_inputer_dict

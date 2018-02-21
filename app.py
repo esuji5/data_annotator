@@ -1,14 +1,13 @@
-# import os
 import random
 
+from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, request, redirect, session, g, render_template, flash, url_for
 from flask_s3 import FlaskS3
 # from bokeh.charts import Histogram
 # from bokeh.embed import components
 # from bokeh.plotting import figure
 
-from utils import connect_db
-from utils import get_db
+# from utils import connect_db
 from utils import get_image_data
 from utils import get_step1_inputer_dict
 
@@ -18,23 +17,18 @@ app.config.from_object(__name__)  # load config from this file , flaskr.py
 app.config.from_envvar('YUYU_DATA_SETTINGS')
 if not app.config['DEBUG'] and not app.config['TESTING']:
     s3 = FlaskS3(app)
-
-# Load default config and override config from an environment variable
-# app.config.update(dict(
-#     DATABASE=os.path.join(app.root_path, 'yuyu_data.db'),
-# ))
-# import pdb; pdb.set_trace()
+db = SQLAlchemy(app)
 
 
-@app.before_request
-def before_request():
-    g.db = connect_db(app)
+# @app.before_request
+# def before_request():
+#     g.db = db
 
 
-@app.after_request
-def after_request(response):
-    g.db.close()
-    return response
+# @app.after_request
+# def after_request(response):
+#     g.db.close()
+#     return response
 
 
 def get_avatar():
@@ -42,9 +36,9 @@ def get_avatar():
 
 
 def fetch_next_rand_id():
-    db = get_db(app)
+    # db = get_db(app)
     step1_ids_sql = 'SELECT koma_id FROM yuyu_data WHERE step = 1'
-    step1_ids = db.execute(step1_ids_sql).fetchall()
+    step1_ids = db.engine.execute(step1_ids_sql).fetchall()
     next_rand_id = random.choice(step1_ids)['koma_id']
     return next_rand_id
 
@@ -76,7 +70,7 @@ def set_avatar(avatar):
 
 @app.route('/annotate/<koma_id>')
 def annotate(koma_id):
-    img_data = get_image_data(app, koma_id)
+    img_data = get_image_data(db, koma_id)
     img_path = url_for('static', filename=img_data['img_path'].split('yuyu_data/')[-1])
     img_path = img_data['img_path'].split('yuyu_data/')[-1]
     print(img_path)
@@ -102,9 +96,9 @@ def save_annotate():
     where koma_id = "{koma_id}"
     '''.format(**val_dict)
 
-    db = get_db(app)
-    db.execute(update_sql)
-    db.commit()
+    # db = get_db(app)
+    db.engine.execute(update_sql)
+    # db.engine.commit()
     flash('update was successfully posted')
     next_rand_id = fetch_next_rand_id()
     return redirect('/annotate/' + next_rand_id)
