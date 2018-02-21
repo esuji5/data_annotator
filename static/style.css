@@ -1,0 +1,71 @@
+html {
+  font-family: Georgia,游明朝,"Yu Mincho",YuMincho,"Hiragino Mincho ProN",HGS明朝E,メイリオ,Meiryo,serif;
+}
+.avatar_a{
+  text-decoration: none;
+  padding: 3px;
+}
+.team_y {
+  position: relative;
+  float: right;
+  top: 10px;
+}
+.gosick{
+  font-family: YuGothicM;
+  src: local("Yu Gothic Medium");
+}
+.yuzuko{
+  color: #f2d7d8 !important;
+}
+.yukari{
+  color: #e8deff !important;
+}
+.yui{
+  color: #fffcc9 !important;
+}
+.none{
+  color: #eee !important;
+}
+.yuzuko_div{
+  background: #f2d7d8;
+  border: 1px !important;
+  border-color: #9b898a !important;
+}
+.yukari_div{
+  background: #e8deff;
+  border: 1px !important;
+  border-color: #9b898a !important;
+}
+.yui_div{
+  background: #fffcc9;
+  border: 1px !important;
+  border-color: #9b898a !important;
+}
+.yuzuko_bgimg {
+  position: relative;
+  margin: 0 auto;
+  width: 100px;
+  height: 100px;
+  background: url(/static/yuzuko_thum.jpg) no-repeat;
+}
+.yukari_bgimg {
+  position: relative;
+  margin: 0 auto;
+  background: url(/static/yuduru_thum.jpg) no-repeat;
+}
+.yui_bgimg {
+  position: relative;
+  margin: 0 auto;
+  background: url(/static/yui_thum.jpg) no-repeat;
+}
+
+.bkRGBA {
+  /* 背景画像の透過用css */
+  height: 100%;
+  background: rgba(255,255,255,0.5);
+}
+.annotate_img{
+  text-align: center;
+  -webkit-margin-start: 0px;
+  -webkit-margin-end: 0px;
+}

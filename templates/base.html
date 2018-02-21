@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+  <head>
+    {% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>{% block title %}{% endblock %} - Greatest Data</title>
+    {% endblock %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='mini-sucroa-nowebfont-min.css') }}">
+
+  </head>
+  <body>
+    <header class="sticky">
+      <a href="/" class="logo">
+        Greatest Data
+      </a>
+      {# <a href="/set_avatar/yuzuko" role="button" class="yuzuko gosick small">●</a> #}
+      {# <a href="/set_avatar/yukari" role="button" class="yukari gosick small">●</a> #}
+      {# <a href="/set_avatar/yui" role="button" class="yui gosick small">●</a> #}
+      {# <a href="/set_avatar/none" role="button" class="none gosick small">●</a> #}
+      <a href="/set_avatar/yuzuko" class="yuzuko gosick avatar_a">●</a>
+      <a href="/set_avatar/yukari" class="yukari gosick avatar_a">●</a>
+      <a href="/set_avatar/yui" class="yui gosick avatar_a">●</a>
+      <a href="/set_avatar/none" class="none gosick avatar_a">●</a>
+      {% if avatar %}
+        <span class="{{avatar}} team_y">Team Y</span>
+      {% endif %}
+    </header>
+
+    <div id="content">{% block content %}{% endblock %}</div>
+    <footer id="footer">
+      {% block footer %}
+      &copy; Copyright 2018 by esuji.
+      {% endblock %}
+    </footer>
+  </body>
+</html>

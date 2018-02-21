@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% block title %}annotate{% endblock %}
+{% block head %}
+  {{ super() }}
+{% endblock %}
+{% block content %}
+
+<div id="annotate" class="container">
+  <figure class="annotate_img">
+    <img src="{{ img_path }}" class=""/>
+    <figcaption>[[ koma_id | captionFormat ]]</figcaption>
+  </figure>
+  <form action="/save_annotate" method="post" style="margin: 0">
+    <fieldset>
+      <legend>step1</legend>
+      <div class="row">
+        <div class="col-sm-3">
+          <label style="padding: 0">人数</label>
+        </div>
+        <div class="col-sm-9">
+          <div class="input-group">
+            <input type="radio" id="rad0_num" tabindex="0" name="chara_num" value="0" v-model="char_num">
+            <label for="rad0_num">0</label>
+            <input type="radio" id="rad1_num" tabindex="0" name="chara_num" value="1" v-model="char_num">
+            <label for="rad1_num">1</label>
+            <input type="radio" id="rad2_num" tabindex="0" name="chara_num" value="2" v-model="char_num">
+            <label for="rad2_num">2</label>
+            <input type="radio" id="rad3_num" tabindex="0" name="chara_num" value="3" v-model="char_num">
+            <label for="rad3_num">3</label>
+            <input type="radio" id="rad4_num" tabindex="0" name="chara_num" value="4" v-model="char_num">
+            <label for="rad4_num">4</label>
+            <input type="radio" id="rad5_num" tabindex="0" name="chara_num" value="5" v-model="char_num">
+            <label for="rad5_num">5</label>
+            <input type="radio" id="rad6_num" tabindex="0" name="chara_num" value="6" v-model="char_num">
+            <label for="rad6_num">6</label>
+            <input type="radio" id="rad7_num" tabindex="0" name="chara_num" value="7" v-model="char_num">
+            <label for="rad7_num">7↑</label>
+          </div>
+        </div>
+      </div>
+      <hr/>
+      <div class="row">
+        <div class="col-sm-3">
+          <label style="padding: 0"><small>右から誰？</small></label>
+        </div>
+        <div class="col-sm-9">
+          <div class="input-group" v-on:click="send_who_str">
+            <input type="radio" id="rad0_whos" tabindex="0" name="radio-group-2">
+            <label for="rad0_whos">ゆ</label>
+            <input type="radio" id="rad1_whos" tabindex="0" name="radio-group-2">
+            <label for="rad1_whos">縁</label>
+            <input type="radio" id="rad2_whos" tabindex="0" name="radio-group-2">
+            <label for="rad2_whos">唯</label>
+            <input type="radio" id="rad3_whos" tabindex="0" name="radio-group-2">
+            <label for="rad3_whos">母</label>
+            <input type="radio" id="rad4_whos" tabindex="0" name="radio-group-2">
+            <label for="rad4_whos">千</label>
+            <input type="radio" id="rad5_whos" tabindex="0" name="radio-group-2">
+            <label for="rad5_whos">佳</label>
+            <input type="radio" id="rad6_whos" tabindex="0" name="radio-group-2">
+            <label for="rad6_whos">ふ</label>
+            <input type="radio" id="rad7_whos" tabindex="0" name="radio-group-2">
+            <label for="rad7_whos">他</label>
+          </div>
+        </div>
+        <div class="col-sm-2 col-sm-offset-3">
+          <input type="text" v-bind:value="whos_str" id="whos" name="whos" placeholder="">
+        </div>
+      </div>
+      <hr/>
+      <div v-for="n, index in int_char_num" class="row">
+        <div class="col-sm-3">
+          <label style="padding: 0"><small>顔の方向[[index+1]]</small></label>
+        </div>
+        <div class="col-sm-9">
+          <div class="input-group">
+            <template v-for="grad_num, index_j in grad_list">
+              <input type="radio"
+               tabindex="0"
+               v-bind:id="'rad_grad' + index_j + '-' + Number(index + 1)"
+               v-bind:name="'grad-' + Number(index + 3)"
+               v-on:click="change_eyes_num"
+               >
+              <label v-bind:for="'rad_grad' + index_j + '-' + Number(index + 1)">[[grad_num]]</label>
+            </template>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-3">
+          <label style="padding: 0"><small>str</small></label>
+        </div>
+        <div class="col-sm-9">
+          <input type="text" v-bind:value="grad_str" id="grad" name="face_direction">
+        </div>
+      </div>
+      <hr/>
+      <div v-for="n, index in have_eyes_num" class="row">
+        <div class="col-sm-3">
+          <label style="padding: 0"><small>目の描き方[[index+1]]</small></label>
+        </div>
+        <div class="col-sm-9">
+          <div class="input-group" name="ches"v-on:click="send_grad_or_eyes_str('eyes')">
+            <input type="radio"
+             tabindex="0"
+             v-bind:id="'rad0_eyes' + Number(index + 1)"
+             v-bind:name="'eyes-' + Number(index + 3)"
+             v-on:click="send_grad_or_eyes_str('eyes')"
+             >
+            <label v-bind:for="'rad0_eyes' + Number(index + 1)">詳細</label>
+            <input type="radio"
+             tabindex="0"
+             checked
+             v-bind:id="'rad1_eyes' + Number(index + 1)"
+             v-bind:name="'eyes-' + Number(index + 3)"
+             >
+            <label v-bind:for="'rad1_eyes' + Number(index + 1)">デフォルメ</label>
+          </div>
+        </div>
+      </div>
+      <div v-if="have_eyes_num > 0">
+        <div class="row">
+          <div class="col-sm-3">
+            <label style="padding: 0"><small>str</small></label>
+          </div>
+          <div class="col-sm-9">
+            <input v-on:click="send_grad_or_eyes_str('eyes')" type="text" v-bind:value="eyes_str" id="eyes" name="eyes" placeholder="If OK, tap here">
+          </div>
+        </div>
+        <hr/>
+      </div>
+      <input type="hidden" id="koma_id" value="{{ koma_id }}" name="koma_id">
+      <input type="hidden" id="step1_inputer" value="{{ avatar }}" name="step1_inputer">
+      <div class="row">
+        <div class="col-sm-3 col-sm-offset-9">
+          <input type="submit" class="primary" :disabled="!is_can_save" style="float: right" value="保存">
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+<script src="{{ url_for('static', filename='index.js') }}"></script>
+{% endblock %}

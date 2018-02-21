@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}top{% endblock %}
+{% block head %}
+  {{ super() }}
+  <link
+    href="http://cdn.pydata.org/bokeh/release/bokeh-0.12.5.min.css"
+    rel="stylesheet" type="text/css">
+  <link
+    href="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.5.min.css"
+    rel="stylesheet" type="text/css">
+
+  <script src="http://cdn.pydata.org/bokeh/release/bokeh-0.12.5.min.js"></script>
+  <script src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.5.min.js"></script>
+{% endblock %}
+{% block content %}
+
+{% if not avatar %}
+<div class="container">
+  <div class="card" style="max-width: 95%">
+    <p>素晴らしいデータにアノテートをするためのサイトにようこそ。</p>
+    <p>最初に所属チームを選んでください。選択後もナビバーの●から選択し直せます。</p>
+</div>
+  <div class="row">
+    <div class="col-sm-4 yuzuko_bgimg">
+      <div class="bkRGBA">
+        <a href="/set_avatar/yuzuko">
+          <p class="sample">yuzuko</p>
+        </a>
+      </div>
+    </div>
+    <div class="col-sm-4 yukari_bgimg">
+      <div class="bkRGBA">
+        <a href="/set_avatar/yukari">
+          <p class="sample">yukari</p>
+        </a>
+      </div>
+      </a>
+    </div>
+    <div class="col-sm-4 yui_bgimg">
+      <div class="bkRGBA">
+        <a href="/set_avatar/yui">
+          <p class="sample">yui</p>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% if avatar %}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12" style="text-align: center;">
+      {% if avatar == "yuzuko" %}
+        <img src="{{ url_for('static', filename='yuzuko.jpg')}}"/>
+        <p>それはどうかな！</p>
+      {% endif %}
+      {% if avatar == "yukari" %}
+        <img src="{{ url_for('static', filename='yuduru.jpg')}}"/>
+        <p>次の目標は4回転半です</p>
+      {% endif %}
+      {% if avatar == "yui" %}
+        <img src="{{ url_for('static', filename='yui.jpg')}}"/>
+        <p>我が軍の勝利のようだな！</p>
+      {% endif %}
+    </div>
+
+    {# {{ the_script|safe }} #}
+    {# {{ the_div|safe }} #}
+    <div class="card col-sm-12" style="text-align: center;">
+      <p>素晴らしいデータが君を待つ</p>
+      <a type="button" class="primary" href="/annotate/{{ next_rand_id }}">れっつあのてーと</a>
+    </div>
+
+  </div>
+</div>
+{% endif %}
+<!-- Stylized button to mimic the design of an Android app -->
+
+{% endblock %}
