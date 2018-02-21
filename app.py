@@ -1,10 +1,11 @@
-import os
+# import os
 import random
 
 from flask import Flask, request, redirect, session, g, render_template, flash, url_for
+from flask_s3 import FlaskS3
 # from bokeh.charts import Histogram
-from bokeh.embed import components
-from bokeh.plotting import figure
+# from bokeh.embed import components
+# from bokeh.plotting import figure
 
 from utils import connect_db
 from utils import get_db
@@ -13,14 +14,16 @@ from utils import get_step1_inputer_dict
 
 # setup flask
 app = Flask(__name__)
-app.secret_key = 'A0Zr98j/3yXffR~XHH!jmN]LWX/,?RT'
 app.config.from_object(__name__)  # load config from this file , flaskr.py
+app.config.from_envvar('YUYU_DATA_SETTINGS')
+if not app.config['DEBUG'] and not app.config['TESTING']:
+    s3 = FlaskS3(app)
 
 # Load default config and override config from an environment variable
-app.config.update(dict(
-    DATABASE=os.path.join(app.root_path, 'yuyu_data.db'),
-))
-app.config.from_envvar('YUYU_DATA_SETTINGS')
+# app.config.update(dict(
+#     DATABASE=os.path.join(app.root_path, 'yuyu_data.db'),
+# ))
+# import pdb; pdb.set_trace()
 
 
 @app.before_request
@@ -57,48 +60,9 @@ def close_db(error):
 def top():
     step1_inputer_dict = get_step1_inputer_dict(app)
     next_rand_id = fetch_next_rand_id()
-    import math
-    from collections import namedtuple
-
-    p = figure(
-        title="Hoge",
-        x_axis_label='x',
-        y_axis_label='y',
-    )
-     # x_range=xdr, y_range=ydr, plot_width=width,plot_height=height,
-    # Data = namedtuple('Data', ('name', 'value', 'color'))
-    # rates = [Data("A", 0.6, "#7FC97F"), Data("B", 0.4, "#DD1C77")]
-
-    # start_angle = 0
-    # for rate in rates:
-    #     p.annular_wedge(
-    #         x=0,
-    #         y=0,
-    #         inner_radius=0.2,
-    #         outer_radius=0.5,
-    #         start_angle=math.pi * 2 * start_angle,
-    #         end_angle=math.pi * 2 * (start_angle + rate.value),
-    #         color=rate.color,
-    #         legend=rate.name
-    #     )
-    #     start_angle += rate.value
-    x = [0.1, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0]
-    p.vbar(x, top=x, width=0.2, bottom=0, color="#CAB2D6")
-
-
-    p = figure(title='title',
-               h_symmetry=False, v_symmetry=False,
-               # min_border=0, toolbar_location="above",
-               # esponsive=False,
-               outline_line_color="#666666")
-    plot = p
-    # Embed plot into HTML via Flask Render
-    script, div = components(plot)
-    print(script)
-    print(step1_inputer_dict)
     return render_template('index.html', step1_inputer_dict=step1_inputer_dict,
                            next_rand_id=next_rand_id, avatar=get_avatar(),
-                           the_script=script, the_div=div,)
+                           )
 
 
 @app.route('/set_avatar/<avatar>')
@@ -114,6 +78,9 @@ def set_avatar(avatar):
 def annotate(koma_id):
     img_data = get_image_data(app, koma_id)
     img_path = url_for('static', filename=img_data['img_path'].split('yuyu_data/')[-1])
+    img_path = img_data['img_path'].split('yuyu_data/')[-1]
+    print(img_path)
+    print(url_for('static', filename='style.css'))
     next_rand_id = fetch_next_rand_id()
     return render_template('annotate.html', img_path=img_path, img_data=img_data,
                            koma_id=koma_id, next_rand_id=next_rand_id, avatar=get_avatar())
@@ -153,3 +120,44 @@ columns = ['koma_id', 'img_path', 'kanji', 'page', 'position', 'koma', 'size_x',
            'place', 'background', 'serif_num', 'whos_s',  # 2次入力
            'serifs', 'onomatope',  # 3次入力
            'step', 'step1_inputer', 'step2_inputer', 'step3_inputer', ]  # 入力ステップ管理
+
+# import math
+# from collections import namedtuple
+
+# p = figure(
+#     title="Hoge",
+#     x_axis_label='x',
+#     y_axis_label='y',
+# )
+#  # x_range=xdr, y_range=ydr, plot_width=width,plot_height=height,
+# # Data = namedtuple('Data', ('name', 'value', 'color'))
+# # rates = [Data("A", 0.6, "#7FC97F"), Data("B", 0.4, "#DD1C77")]
+
+# # start_angle = 0
+# # for rate in rates:
+# #     p.annular_wedge(
+# #         x=0,
+# #         y=0,
+# #         inner_radius=0.2,
+# #         outer_radius=0.5,
+# #         start_angle=math.pi * 2 * start_angle,
+# #         end_angle=math.pi * 2 * (start_angle + rate.value),
+# #         color=rate.color,
+# #         legend=rate.name
+# #     )
+# #     start_angle += rate.value
+# x = [0.1, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0]
+# p.vbar(x, top=x, width=0.2, bottom=0, color="#CAB2D6")
+
+
+# p = figure(title='title',
+#            h_symmetry=False, v_symmetry=False,
+#            # min_border=0, toolbar_location="above",
+#            # esponsive=False,
+#            outline_line_color="#666666")
+# plot = p
+# # Embed plot into HTML via Flask Render
+# script, div = components(plot)
+# print(script)
+# print(step1_inputer_dict)
+# the_script=script, the_div=div,
