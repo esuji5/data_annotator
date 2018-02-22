@@ -4,13 +4,12 @@
   {{ super() }}
 {% endblock %}
 {% block content %}
-
 <div id="annotate" class="container">
   <figure class="annotate_img">
-    <img src="{{ url_for('static', filename=img_path) }}" class=""/>
+    <img src="{{ url_for('static', filename=img_path) }}"/>
     <figcaption>[[ koma_id | captionFormat ]]</figcaption>
   </figure>
-  <form action="/save_annotate" method="post" style="margin: 0">
+  <form action="/save_annotate" method="post" style="margin: 0;">
     <fieldset>
       <legend>step1</legend>
       <div class="row">

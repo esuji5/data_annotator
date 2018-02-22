@@ -14,7 +14,7 @@ var app = new Vue({
   },
   mounted: function () {
     this.koma_id = koma_id
-    this.have_eyes_num = this.get_have_eyes_num()
+    // this.have_eyes_num = this.get_have_eyes_num()
   },
   computed: {
     is_can_save: function() {
@@ -44,7 +44,7 @@ var app = new Vue({
       return have_eyes_num
     },
     send_who_str: function (elem) {
-      var value = elem.path[0].innerText
+      var value = elem.target.labels[0].innerText
       if (value && value.length == 1){
         this.whos_str = this.whos_str + value + ','
       }
