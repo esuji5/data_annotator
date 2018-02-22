@@ -20,6 +20,9 @@ html {
   font-family: YuGothicM;
   src: local("Yu Gothic Medium");
 }
+.text-small{
+  font-size: 80%;
+}
 .yuzuko{
   color: #f2d7d8 !important;
 }
