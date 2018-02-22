@@ -10,7 +10,7 @@ var app = new Vue({
     whos_str: '',
     grad_str: '',
     eyes_str: '',
-    step: 0,
+    step: 1,
     grad_list: ['左向き前', '右向き前', '正面前', '背面'],
   },
   mounted: function () {
