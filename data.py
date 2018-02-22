@@ -4,9 +4,11 @@ from flask import flash
 
 
 def get_image_data(db, koma_id):
-    select_sql = "SELECT img_path FROM yuyu_data WHERE koma_id = '{}'".format(koma_id)
+    select_sql = "SELECT img_path, chara_num, whos, eyes, face_direction, step FROM yuyu_data WHERE koma_id = '{}'".format(koma_id)
     cur = db.engine.execute(select_sql)
     data = cur.fetchone()
+    # if isinstance(data[1], float):
+    #     data[1] = int(data[1])
     return data
 
 

@@ -10,18 +10,29 @@ var app = new Vue({
     whos_str: '',
     grad_str: '',
     eyes_str: '',
+    step: 0,
     grad_list: ['左向き前', '右向き前', '正面前', '背面'],
   },
   mounted: function () {
     this.koma_id = koma_id
-    // this.have_eyes_num = this.get_have_eyes_num()
+    this.char_num = document.getElementById("chara_num").value
+    this.whos_str = document.getElementById("whos").value
+    this.grad_str = document.getElementById("face_direction").value
+    this.eyes_str = document.getElementById("eyes").value
+    this.step = document.getElementById("step").value
   },
   computed: {
     is_can_save: function() {
-      // 細かいバリデーションはしない。strが入力されていれば保存可能
+      // 簡単なバリデーション
       var is_fill_whos_and_grad = this.whos_str !== '' && this.grad_str !== ''
       var is_eyes_input_ok = (this.get_have_eyes_num() > 0 && this.eyes_str !== '') || this.get_have_eyes_num() === 0
-      return is_fill_whos_and_grad && is_eyes_input_ok
+      const is_ok_inputed_str = is_fill_whos_and_grad && is_eyes_input_ok
+
+      var is_equall_chara_num_and_whos_len = Number(this.char_num) === this.whos_str.split(',').length - 1
+      var is_equall_grad_str_len_and_grad_str_len = this.have_eyes_num === this.eyes_str.split(',').length - 1
+      const is_ok_str_length = is_equall_chara_num_and_whos_len && is_equall_grad_str_len_and_grad_str_len
+
+      return is_ok_inputed_str && is_ok_str_length
     },
     int_char_num: function () {
       return Number(this.char_num)
@@ -67,6 +78,14 @@ var app = new Vue({
     change_eyes_num: function () {
       this.have_eyes_num = this.get_have_eyes_num()
       this.send_grad_or_eyes_str('grad')
-    }
+    },
+    reset_values: function () {
+      this.char_num=1
+      this.have_eyes_num=1
+      this.koma_id=''
+      this.whos_str=''
+      this.grad_str=''
+      this.eyes_str=''
+    },
   }
 })

@@ -4,6 +4,13 @@
   {{ super() }}
 {% endblock %}
 {% block content %}
+
+<input type="hidden" id="chara_num" value="{{ img_data.chara_num|int }}">
+<input type="hidden" id="whos" value="{{ img_data.whos|default('') }}">
+<input type="hidden" id="face_direction" value="{{ img_data.face_direction|default('') }}">
+<input type="hidden" id="eyes" value="{{ img_data.eyes|default('') }}">
+<input type="hidden" id="step" value="{{ img_data.step|default('') }}">
+
 <div id="annotate" class="container">
   <figure class="annotate_img">
     <img src="{{ url_for('static', filename=img_path) }}"/>
@@ -63,7 +70,7 @@
           </div>
         </div>
         <div class="col-sm-2 col-sm-offset-3">
-          <input type="text" v-bind:value="whos_str" id="whos" name="whos" placeholder="">
+          <input type="text" v-bind:value="whos_str" id="whos" name="whos">
         </div>
       </div>
       <hr/>
@@ -131,8 +138,9 @@
       <input type="hidden" id="koma_id" value="{{ koma_id }}" name="koma_id">
       <input type="hidden" id="step1_inputer" value="{{ avatar }}" name="step1_inputer">
       <div class="row">
-        <div class="col-sm-3 col-sm-offset-9">
-          <input type="submit" class="primary" :disabled="!is_can_save" style="float: right" value="保存">
+        <div class="col-sm-5 col-sm-offset-7">
+          <input type="submit" class="primary" :disabled="!is_can_save" style="float: right" v-bind:value="step === '1' ? '保存' : '※上書きします'">
+          <button type="reset" v-on:click.stop="reset_values" class="secondary" style="float: right">リセット</button>
         </div>
       </div>
     </fieldset>
