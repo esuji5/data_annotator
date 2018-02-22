@@ -94,7 +94,7 @@
       </div>
       <div class="row">
         <div class="col-sm-3">
-          <label style="padding: 0"><small>str</small></label>
+          <label style="padding: 0"></label>
         </div>
         <div class="col-sm-9">
           <input type="text" v-bind:value="grad_str" id="grad" name="face_direction">
@@ -127,7 +127,7 @@
       <div v-if="have_eyes_num > 0">
         <div class="row">
           <div class="col-sm-3">
-            <label style="padding: 0"><small>str</small></label>
+            <label style="padding: 0"></label>
           </div>
           <div class="col-sm-9">
             <input v-on:click="send_grad_or_eyes_str('eyes')" type="text" v-bind:value="eyes_str" id="eyes" name="eyes" placeholder="If OK, tap here">
@@ -138,7 +138,7 @@
       <input type="hidden" id="koma_id" value="{{ koma_id }}" name="koma_id">
       <input type="hidden" id="step1_inputer" value="{{ avatar }}" name="step1_inputer">
       <div class="row">
-        <div class="col-sm-5 col-sm-offset-7">
+        <div class="col-sm-12">
           <input type="submit" class="primary" :disabled="!is_can_save" style="float: right" v-bind:value="Number(step) === 1 ? '保存' : '※上書きします'">
           <button type="reset" v-on:click.stop="reset_values" class="secondary" style="float: right">リセット</button>
         </div>

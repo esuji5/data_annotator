@@ -11,30 +11,30 @@
 
 {% if not avatar %}
 <div class="container">
-  <div class="card" style="max-width: 95%">
+  <div class="card" style="max-width: 95%;">
     <p>素晴らしいデータにアノテートをするためのサイトにようこそ。</p>
     <p>最初に所属チームを選んでください。選択後もナビバーの●から選択し直せます。</p>
-</div>
+  </div>
   <div class="row">
     <div class="col-sm-4 yuzuko_bgimg">
       <div class="bkRGBA">
-        <a href="/set_avatar/yuzuko">
-          <p class="sample">yuzuko</p>
+        <a href="/set_avatar/yuzuko" class="avatar_a">
+          <p>yuzuko</p>
         </a>
       </div>
     </div>
     <div class="col-sm-4 yukari_bgimg">
       <div class="bkRGBA">
-        <a href="/set_avatar/yukari">
-          <p class="sample">yukari</p>
+        <a href="/set_avatar/yukari" class="avatar_a">
+          <p>yukari</p>
         </a>
       </div>
       </a>
     </div>
     <div class="col-sm-4 yui_bgimg">
       <div class="bkRGBA">
-        <a href="/set_avatar/yui">
-          <p class="sample">yui</p>
+        <a href="/set_avatar/yui" class="avatar_a">
+          <p>yui</p>
         </a>
       </div>
     </div>
@@ -43,8 +43,8 @@
 {% endif %}
 {% if avatar %}
 <div class="container">
-  <div class="row text-center">
-    <div class="col-sm-12">
+  <div class="row">
+    <div class="col-sm-12 text-center" style="margin-top: 10px;">
       {% if avatar == "yuzuko" %}
         <img src="{{ url_for('static', filename='yuzuko.jpg')}}"/>
         <p>それはどうかな！</p>
@@ -61,9 +61,19 @@
 
     {# {{ the_script|safe }} #}
     {# {{ the_div|safe }} #}
-    <div class="card col-sm-12" style="text-align: center;">
+    <div class="card col-sm-12 gosick">
+      <ul>
+        {% for key, val in step1_inputer_dict.items() %}
+          <li>{{ key|default('未入力', True) }}: {{val}}</li>
+        {% endfor %}
+      </ul>
+      <p><small>いい感じのグラフにしたいがうまくいかんかった</small></p>
+    </div>
+    <div class="card col-sm-12 text-center">
       <p>素晴らしいデータが君を待つ</p>
-      <a type="button" class="primary" href="/annotate/{{ next_rand_id }}">れっつあのてーと</a>
+      <a href="/annotate/{{ next_rand_id }}">
+        <button class="primary">れっつあのてーと</button>
+      </a>
     </div>
 
   </div>
