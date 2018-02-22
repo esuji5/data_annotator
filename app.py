@@ -33,10 +33,7 @@ def top():
 @app.route('/set_avatar/<avatar>')
 @requires_auth
 def set_avatar(avatar):
-    if avatar == 'none':
-        session['avatar'] = None
-    else:
-        session['avatar'] = avatar
+    session['avatar'] = avatar if avatar != 'none' else None
     return redirect(url_for('top'))
 
 
