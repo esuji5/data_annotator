@@ -62,24 +62,3 @@ def save_annotate():
 
 if __name__ == '__main__':
     app.run()
-
-# @app.before_request
-# def before_request():
-#     g.db = db
-
-
-# @app.after_request
-# def after_request(response):
-#     g.db.close()
-#     return response
-
-# @app.teardown_appcontext
-# def close_db(error):
-#     """Closes the database again at the end of the request."""
-#     if hasattr(g, 'sqlite_db'):
-#         g.sqlite_db.close()
-# from bokeh.charts import Histogram
-# from bokeh.embed import components
-# from bokeh.plotting import figure
-# import math
-# from collections import namedtuple

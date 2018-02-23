@@ -5,6 +5,7 @@
 {% endblock %}
 {% block content %}
 
+{# step2以降のデータ確認用 #}
 <input type="hidden" id="chara_num" value="{{ img_data.chara_num|int|default(1, True) }}">
 <input type="hidden" id="whos" value="{{ img_data.whos|default('', True) }}">
 <input type="hidden" id="face_direction" value="{{ img_data.face_direction|default('', True) }}">
@@ -178,5 +179,5 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
-<script src="{{ url_for('static', filename='index.js') }}"></script>
+<script src="{{ url_for('static', filename='annotate.js') }}"></script>
 {% endblock %}

@@ -4,11 +4,11 @@ from flask import flash
 
 
 def get_image_data(db, koma_id):
-    select_sql = "SELECT img_path, chara_num, whos, eyes, face_direction, step FROM yuyu_data WHERE koma_id = '{}'".format(koma_id)
+    select_sql = """
+    SELECT img_path, chara_num, whos, eyes, face_direction, step
+    FROM yuyu_data WHERE koma_id = '{}'""".format(koma_id)
     cur = db.engine.execute(select_sql)
     data = cur.fetchone()
-    # if isinstance(data[1], float):
-    #     data[1] = int(data[1])
     return data
 
 
@@ -102,4 +102,5 @@ columns = ['koma_id', 'img_path', 'kanji', 'page', 'position', 'koma', 'size_x',
 # CREATE INDEX step1_inputer_id ON yuyu_data (step1_inputer_id)
 # DROP INDEX step1_inputer_id
 # SELECT koma_id FROM yuyu_data WHERE step = 1
-# SELECT img_path, chara_num, whos, eyes, face_direction, step FROM yuyu_data WHERE koma_id = '01-095-'
+# SELECT img_path, chara_num, whos, eyes, face_direction, step
+# FROM yuyu_data WHERE koma_id = '01-095-'
