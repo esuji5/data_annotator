@@ -4,8 +4,8 @@ var app = new Vue({
   el: '#annotate',
   delimiters: ["[[", "]]"],
   data: {
-    char_num: 1,
-    have_eyes_num: 1,
+    chara_num: 1,
+    have_eyes_num: 0,
     koma_id: '',
     whos_str: '',
     grad_str: '',
@@ -15,7 +15,7 @@ var app = new Vue({
   },
   mounted: function () {
     this.koma_id = koma_id
-    this.char_num = document.getElementById("chara_num").value
+    this.chara_num = document.getElementById("chara_num").value
     this.whos_str = document.getElementById("whos").value
     this.grad_str = document.getElementById("face_direction").value
     this.eyes_str = document.getElementById("eyes").value
@@ -24,18 +24,27 @@ var app = new Vue({
   computed: {
     is_can_save: function() {
       // 簡単なバリデーション
-      var is_fill_whos_and_grad = this.whos_str !== '' && this.grad_str !== ''
-      var is_eyes_input_ok = (this.get_have_eyes_num() > 0 && this.eyes_str !== '') || this.get_have_eyes_num() === 0
-      const is_ok_inputed_str = is_fill_whos_and_grad && is_eyes_input_ok
+      if (this.chara_num == 0){
+        // 0人
+        var is_blank_fill_whos_and_grad = this.whos_str === '' && this.grad_str === ''
+        var is_eyes_input_ok = this.eyes_str === '' && this.have_eyes_num === 0
+        return is_blank_fill_whos_and_grad && is_eyes_input_ok
+      } else {
+        // 1人以上
+        var is_fill_whos_and_grad = this.whos_str !== '' && this.grad_str !== ''
+        var is_eyes_input_ok = (this.get_have_eyes_num() > 0 && this.eyes_str !== '') || this.get_have_eyes_num() === 0
+        const is_ok_inputed_str = is_fill_whos_and_grad && is_eyes_input_ok
 
-      var is_equall_chara_num_and_whos_len = Number(this.char_num) === this.whos_str.split(',').length - 1
-      var is_equall_grad_str_len_and_grad_str_len = this.have_eyes_num === this.eyes_str.split(',').length - 1
-      const is_ok_str_length = is_equall_chara_num_and_whos_len && is_equall_grad_str_len_and_grad_str_len
+        var is_equall_chara_num_and_whos_len = Number(this.chara_num) === this.whos_str.split(',').length - 1
+        var is_equall_grad_str_len_and_grad_str_len = this.have_eyes_num === this.eyes_str.split(',').length - 1
+        const is_ok_str_length = is_equall_chara_num_and_whos_len && is_equall_grad_str_len_and_grad_str_len
 
-      return is_ok_inputed_str && is_ok_str_length
+        return is_ok_inputed_str && is_ok_str_length
+
+      }
     },
-    int_char_num: function () {
-      return Number(this.char_num)
+    int_chara_num: function () {
+      return Number(this.chara_num)
     },
   },
   filters: {
@@ -53,6 +62,12 @@ var app = new Vue({
         label_text.indexOf('前') > 0 ? have_eyes_num++ : null
       }
       return have_eyes_num
+    },
+    send_chara_num: function (elem) {
+      var value = elem.target.labels[0].innerText
+      if (Number(value) === 0){
+        this.reset_values(0)
+      }
     },
     send_who_str: function (elem) {
       var value = elem.target.labels[0].innerText
@@ -79,13 +94,13 @@ var app = new Vue({
       this.have_eyes_num = this.get_have_eyes_num()
       this.send_grad_or_eyes_str('grad')
     },
-    reset_values: function () {
-      this.char_num=1
-      this.have_eyes_num=1
-      this.koma_id=''
-      this.whos_str=''
-      this.grad_str=''
-      this.eyes_str=''
+    reset_values: function (chara_num=1) {
+      this.chara_num = chara_num === 1 ? 1 : 0
+      this.have_eyes_num = 0
+      this.koma_id = ''
+      this.whos_str = ''
+      this.grad_str = ''
+      this.eyes_str = ''
     },
   }
 })

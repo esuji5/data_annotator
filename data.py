@@ -51,7 +51,7 @@ def get_graph_script(step1_inputer_dict):
     <script type='text/javascript'>
       var data = {{
         // A labels array that can contain any sort of values
-        labels: ['yuzuko', 'yukari', 'yui', '未入力({not_yet})'],
+        labels: ['yuzuko({yuzuko})', 'yukari({yukari})', 'yui({yui})', '未入力({not_yet})'],
         // Our series array that contains series objects or in this case series data arrays
         series: [{yuzuko},{yukari},{yui},{not_yet}]
       }};

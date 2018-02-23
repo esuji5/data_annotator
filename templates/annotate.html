@@ -21,31 +21,31 @@
       <legend>step1</legend>
       <div class="row">
         <div class="col-sm-3">
-          <label style="padding: 0">人数</label>
+          <label style="padding: 0">人数[[chara_num]]</label>
         </div>
         <div class="col-sm-9">
           <div class="input-group">
-            <input type="radio" id="rad0_num" tabindex="0" name="chara_num" value="0" v-model="char_num">
+            <input type="radio" id="rad0_num" tabindex="0" name="chara_num" value="0" v-model="chara_num" v-on:click="send_chara_num">
             <label for="rad0_num">0</label>
-            <input type="radio" id="rad1_num" tabindex="0" name="chara_num" value="1" v-model="char_num">
+            <input type="radio" id="rad1_num" tabindex="0" name="chara_num" value="1" v-model="chara_num">
             <label for="rad1_num">1</label>
-            <input type="radio" id="rad2_num" tabindex="0" name="chara_num" value="2" v-model="char_num">
+            <input type="radio" id="rad2_num" tabindex="0" name="chara_num" value="2" v-model="chara_num">
             <label for="rad2_num">2</label>
-            <input type="radio" id="rad3_num" tabindex="0" name="chara_num" value="3" v-model="char_num">
+            <input type="radio" id="rad3_num" tabindex="0" name="chara_num" value="3" v-model="chara_num">
             <label for="rad3_num">3</label>
-            <input type="radio" id="rad4_num" tabindex="0" name="chara_num" value="4" v-model="char_num">
+            <input type="radio" id="rad4_num" tabindex="0" name="chara_num" value="4" v-model="chara_num">
             <label for="rad4_num">4</label>
-            <input type="radio" id="rad5_num" tabindex="0" name="chara_num" value="5" v-model="char_num">
+            <input type="radio" id="rad5_num" tabindex="0" name="chara_num" value="5" v-model="chara_num">
             <label for="rad5_num">5</label>
-            <input type="radio" id="rad6_num" tabindex="0" name="chara_num" value="6" v-model="char_num">
+            <input type="radio" id="rad6_num" tabindex="0" name="chara_num" value="6" v-model="chara_num">
             <label for="rad6_num">6</label>
-            <input type="radio" id="rad7_num" tabindex="0" name="chara_num" value="7" v-model="char_num">
+            <input type="radio" id="rad7_num" tabindex="0" name="chara_num" value="7" v-model="chara_num">
             <label for="rad7_num">7↑</label>
           </div>
         </div>
       </div>
-      <hr/>
-      <div class="row">
+      <hr v-if="chara_num > 0" >
+      <div v-if="chara_num > 0" class="row">
         <div class="col-sm-3">
           <label style="padding: 0"><small>右から誰？</small></label>
         </div>
@@ -70,11 +70,11 @@
           </div>
         </div>
         <div class="col-sm-2 col-sm-offset-3">
-          <input type="text" v-bind:value="whos_str" id="whos" name="whos">
+          <input type="text" v-bind:value="whos_str" id="whos" name="whos" value="">
         </div>
       </div>
-      <hr/>
-      <div v-for="n, index in int_char_num" class="row">
+      <hr v-if="chara_num > 0" >
+      <div v-if="chara_num > 0" v-for="n, index in int_chara_num" class="row">
         <div class="col-sm-3">
           <label style="padding: 0"><small>顔の方向[[index+1]]</small></label>
         </div>
@@ -92,16 +92,16 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <div v-if="chara_num > 0" class="row">
         <div class="col-sm-3">
           <label style="padding: 0"></label>
         </div>
         <div class="col-sm-9">
-          <input type="text" v-bind:value="grad_str" id="grad" name="face_direction">
+          <input type="text" v-bind:value="grad_str" id="grad" name="face_direction" value="">
         </div>
       </div>
-      <hr/>
-      <div v-for="n, index in have_eyes_num" class="row">
+      <hr v-if="chara_num > 0" >
+      <div v-if="chara_num > 0" v-for="n, index in have_eyes_num" class="row">
         <div class="col-sm-3">
           <label style="padding: 0"><small>目の描き方[[index+1]]</small></label>
         </div>
@@ -124,17 +124,25 @@
           </div>
         </div>
       </div>
-      <div v-if="have_eyes_num > 0">
+      <div v-if="chara_num > 0 && have_eyes_num > 0">
         <div class="row">
           <div class="col-sm-3">
             <label style="padding: 0"></label>
           </div>
           <div class="col-sm-9">
-            <input v-on:click="send_grad_or_eyes_str('eyes')" type="text" v-bind:value="eyes_str" id="eyes" name="eyes" placeholder="If OK, tap here">
+            <input v-on:click="send_grad_or_eyes_str('eyes')" type="text" v-bind:value="eyes_str" id="eyes" name="eyes" placeholder="If OK, tap here" value="">
           </div>
         </div>
         <hr/>
       </div>
+
+      {# 0人時の対応でnameと空文字valueを用意 #}
+      <div v-if="chara_num == 0">
+        <input type="hidden" value="" name="whos">
+        <input type="hidden" value="" name="face_direction">
+      </div>
+      <input v-if="have_eyes_num == 0" type="hidden" value="" name="eyes">
+
       <input type="hidden" id="koma_id" value="{{ koma_id }}" name="koma_id">
       <input type="hidden" id="step1_inputer" value="{{ avatar }}" name="step1_inputer">
       <div class="row">
