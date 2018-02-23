@@ -46,6 +46,48 @@ def update_step1(db, val_dict):
     flash('update was successfully posted')
 
 
+def get_graph_script(step1_inputer_dict):
+    graph_script = """
+    <script type='text/javascript'>
+      var data = {{
+        // A labels array that can contain any sort of values
+        labels: ['yuzuko', 'yukari', 'yui', '未入力'],
+        // Our series array that contains series objects or in this case series data arrays
+        series: [{yuzuko},{yukari},{yui},{not_yet}]
+      }};
+
+      var options = {{
+        distributeSeries: true,
+        //high: 300,
+        showArea: true,
+        showPoint: true,
+        showLabel: true,
+
+        labelInterpolationFnc: function(value) {{
+        console.log(value)
+            return value
+        }}
+      }}
+
+      var chart = new Chartist.Bar('.ct-chart', data, options);
+    </script>
+    """.format(**step1_inputer_dict)
+    return graph_script
+
+
+def get_pie_chart_script(step1_inputer_dict):
+    graph_script = """
+    <script type='text/javascript'>
+      var data = {{
+        labels: ['yuzuko', 'yukari', 'yui', '未入力'],
+        series: [{yuzuko},{yukari},{yui},{not_yet}]
+      }};
+      new Chartist.Pie('.ct-chart', data)
+
+    </script>
+    """.format(**step1_inputer_dict)
+    return graph_script
+
 # データを集めるカラム
 columns = ['koma_id', 'img_path', 'kanji', 'page', 'position', 'koma', 'size_x', 'size_y',
            'chara_num', 'whos', 'eyes', 'face_direction',  # 1次入力
@@ -57,3 +99,7 @@ columns = ['koma_id', 'img_path', 'kanji', 'page', 'position', 'koma', 'size_x',
 # group by step
 # select step1_inputer, count(step1_inputer) from yuyu_data
 # group by step1_inputer
+# CREATE INDEX step1_inputer_id ON yuyu_data (step1_inputer_id)
+# DROP INDEX step1_inputer_id
+# SELECT koma_id FROM yuyu_data WHERE step = 1
+# SELECT img_path, chara_num, whos, eyes, face_direction, step FROM yuyu_data WHERE koma_id = '01-095-'

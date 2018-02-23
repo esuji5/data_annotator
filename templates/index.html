@@ -2,10 +2,6 @@
 {% block title %}top{% endblock %}
 {% block head %}
   {{ super() }}
-  {# <link href="http://cdn.pydata.org/bokeh/release/bokeh-0.12.5.min.css" rel="stylesheet" type="text/css"> #}
-  {# <link href="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.5.min.css" rel="stylesheet" type="text/css"> #}
-  {# // <script src="http://cdn.pydata.org/bokeh/release/bokeh-0.12.5.min.js"></script> #}
-  {# // <script src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.5.min.js"></script> #}
 {% endblock %}
 {% block content %}
 
@@ -59,15 +55,9 @@
       {% endif %}
     </div>
 
-    {# {{ the_script|safe }} #}
-    {# {{ the_div|safe }} #}
-    <div class="card col-sm-12 gosick">
-      <ul>
-        {% for key, val in step1_inputer_dict.items() %}
-          <li>{{ key|default('未入力', True) }}: {{val}}</li>
-        {% endfor %}
-      </ul>
-      <p><small>いい感じのグラフにしたいがうまくいかんかった</small></p>
+    <div class="card col-sm-12 text-center">
+      <p>データ入力状況</p>
+      <div class="ct-chart ct-perfect-fourth"></div>
     </div>
     <div class="card col-sm-12 text-center">
       <p>素晴らしいデータが君を待つ</p>
@@ -91,5 +81,6 @@
 </div>
 {% endif %}
 <!-- Stylized button to mimic the design of an Android app -->
-
+<script src="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+{{ graph_script|safe }}
 {% endblock %}

@@ -5,6 +5,8 @@ from flask_s3 import FlaskS3
 from basic_auth import requires_auth
 from data import get_image_data
 from data import get_step1_inputer_dict
+from data import get_graph_script
+# from data import get_pie_chart_script
 from data import fetch_next_rand_id
 from data import update_step1
 
@@ -25,8 +27,9 @@ def get_avatar():
 @requires_auth
 def top():
     step1_inputer_dict = get_step1_inputer_dict(db)
+    graph_script = get_graph_script(step1_inputer_dict)
     next_rand_id = fetch_next_rand_id(db)
-    return render_template('index.html', step1_inputer_dict=step1_inputer_dict,
+    return render_template('index.html', graph_script=graph_script,
                            next_rand_id=next_rand_id, avatar=get_avatar())
 
 
@@ -80,41 +83,3 @@ if __name__ == '__main__':
 # from bokeh.plotting import figure
 # import math
 # from collections import namedtuple
-
-# p = figure(
-#     title="Hoge",
-#     x_axis_label='x',
-#     y_axis_label='y',
-# )
-#  # x_range=xdr, y_range=ydr, plot_width=width,plot_height=height,
-# # Data = namedtuple('Data', ('name', 'value', 'color'))
-# # rates = [Data("A", 0.6, "#7FC97F"), Data("B", 0.4, "#DD1C77")]
-
-# # start_angle = 0
-# # for rate in rates:
-# #     p.annular_wedge(
-# #         x=0,
-# #         y=0,
-# #         inner_radius=0.2,
-# #         outer_radius=0.5,
-# #         start_angle=math.pi * 2 * start_angle,
-# #         end_angle=math.pi * 2 * (start_angle + rate.value),
-# #         color=rate.color,
-# #         legend=rate.name
-# #     )
-# #     start_angle += rate.value
-# x = [0.1, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0]
-# p.vbar(x, top=x, width=0.2, bottom=0, color="#CAB2D6")
-
-
-# p = figure(title='title',
-#            h_symmetry=False, v_symmetry=False,
-#            # min_border=0, toolbar_location="above",
-#            # esponsive=False,
-#            outline_line_color="#666666")
-# plot = p
-# # Embed plot into HTML via Flask Render
-# script, div = components(plot)
-# print(script)
-# print(step1_inputer_dict)
-# the_script=script, the_div=div,
