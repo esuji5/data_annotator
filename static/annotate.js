@@ -101,10 +101,8 @@ var app = new Vue({
     change_eyes_num: function () {
       this.have_eyes_num = this.get_have_eyes_num()
 
-      console.log(Promise)
       this.send_grad_or_eyes_str('grad')
-      setTimeout(this.send_grad_or_eyes_str, 100,'eyes');
-      // this.send_grad_or_eyes_str('grad').then(this.send_grad_or_eyes_str('eyes'))
+      setTimeout(this.send_grad_or_eyes_str, 50,'eyes');
     },
     reset_values: function (chara_num=1) {
       this.chara_num = chara_num === 1 ? 1 : 0
