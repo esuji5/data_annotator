@@ -46,6 +46,9 @@ var app = new Vue({
     int_chara_num: function () {
       return Number(this.chara_num)
     },
+    eyes_strc: function () {
+      return this.eyes_str
+    },
   },
   filters: {
     captionFormat: function (date) {
@@ -76,23 +79,32 @@ var app = new Vue({
       }
     },
     send_grad_or_eyes_str: function (kind) {
-      var ches = document.querySelectorAll("[type=radio]:checked")
-      var target_str = ''
-      for (var i=0; i< ches.length; i++) {
-        if(ches[i].id.indexOf(kind) > 0){
-          var label_text = ches[i].labels[0].innerText
-          target_str = target_str + label_text + ','
+      // return new Promise(function(resolve, reject) {
+        var ches = document.querySelectorAll("[type=radio]:checked")
+        var target_str = ''
+        for (var i=0; i< ches.length; i++) {
+          if(ches[i].id.indexOf(kind) > 0){
+            var label_text = ches[i].labels[0].innerText
+            target_str = target_str + label_text + ','
+          }
         }
-      }
-      if (kind == 'grad') {
-        this.grad_str = target_str
-      } else if (kind == 'eyes') {
-        this.eyes_str = target_str
-      }
+        if (kind == 'grad') {
+          console.log(kind)
+          this.grad_str = target_str
+          // resolve()
+        } else if (kind == 'eyes') {
+          this.eyes_str = target_str
+        }
+        console.log(kind)
+      // });
     },
     change_eyes_num: function () {
       this.have_eyes_num = this.get_have_eyes_num()
+
+      console.log(Promise)
       this.send_grad_or_eyes_str('grad')
+      setTimeout(this.send_grad_or_eyes_str, 100,'eyes');
+      // this.send_grad_or_eyes_str('grad').then(this.send_grad_or_eyes_str('eyes'))
     },
     reset_values: function (chara_num=1) {
       this.chara_num = chara_num === 1 ? 1 : 0

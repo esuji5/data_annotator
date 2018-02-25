@@ -150,6 +150,7 @@
         <div class="col-sm-12">
           <input type="submit" class="primary" :disabled="!is_can_save" style="float: right" v-bind:value="Number(step) === 1 ? '保存' : '※上書きします'">
           <button type="reset" v-on:click.stop="reset_values" class="secondary" style="float: right">リセット</button>
+          [[this.eyes_str]]
         </div>
       </div>
     </fieldset>
