@@ -47,6 +47,12 @@ def update_step1(db, val_dict):
 
 
 def get_graph_script(step1_inputer_dict):
+    vals = list(step1_inputer_dict.values())
+    vals.remove(max(vals))
+    max_num = max(vals)
+    display_max_num = (max_num // 100 + 2) * 100
+    step1_inputer_dict['display_max_num'] = display_max_num
+
     graph_script = """
     <script type='text/javascript'>
       var data = {{
@@ -58,7 +64,7 @@ def get_graph_script(step1_inputer_dict):
 
       var options = {{
         distributeSeries: true,
-        high: 200,
+        high: {display_max_num},
         showArea: true,
         showPoint: true,
         showLabel: true,
