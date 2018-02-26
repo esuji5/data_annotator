@@ -2,6 +2,8 @@
 {% block title %}top{% endblock %}
 {% block head %}
   {{ super() }}
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css" />
+
 {% endblock %}
 {% block content %}
 
@@ -42,15 +44,15 @@
   <div class="row">
     <div class="col-sm-12 text-center" style="margin-top: 10px;">
       {% if avatar == "yuzuko" %}
-        <img src="{{ url_for('static', filename='yuzuko.jpg')}}"/>
+        <img src="{{ url_for('static', filename='img/yuzuko.jpg')}}"/>
         <p>それはどうかな！</p>
       {% endif %}
       {% if avatar == "yukari" %}
-        <img src="{{ url_for('static', filename='yuduru.jpg')}}"/>
+        <img src="{{ url_for('static', filename='img/yuduru.jpg')}}"/>
         <p>次の目標は4回転半です</p>
       {% endif %}
       {% if avatar == "yui" %}
-        <img src="{{ url_for('static', filename='yui.jpg')}}"/>
+        <img src="{{ url_for('static', filename='img/yui.jpg')}}"/>
         <p>我が軍の勝利のようだな！</p>
       {% endif %}
     </div>

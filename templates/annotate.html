@@ -100,11 +100,14 @@
         <div class="col-sm-9">
           <input type="text" v-bind:value="grad_str" id="grad" name="face_direction" value="">
         </div>
+        <div class="col-sm-3 col-sm-offset-9">
+          <input type="submit" class="primary" :disabled="!is_can_save" style="float: right" v-bind:value="Number(step) === 1 ? '保存' : '※上書きします'">
+        </div>
       </div>
       <hr v-if="chara_num > 0" >
       <div v-if="chara_num > 0" v-for="n, index in have_eyes_num" class="row">
         <div class="col-sm-3">
-          <label style="padding: 0"><small>目の描き方[[index+1]]</small></label>
+          <label style="padding: 0"><small>目の描写[[index+1]]</small></label>
         </div>
         <div class="col-sm-9">
           <div class="input-group" name="ches"v-on:click="send_grad_or_eyes_str('eyes')">
@@ -115,6 +118,13 @@
              v-on:click="send_grad_or_eyes_str('eyes')"
              >
             <label v-bind:for="'rad0_eyes' + Number(index + 1)">詳細</label>
+            <input type="radio"
+             tabindex="0"
+             checked
+             v-bind:id="'rad2_eyes' + Number(index + 1)"
+             v-bind:name="'eyes-' + Number(index + 3)"
+             >
+            <label v-bind:for="'rad2_eyes' + Number(index + 1)">隠れ</label>
             <input type="radio"
              tabindex="0"
              checked
@@ -150,7 +160,6 @@
         <div class="col-sm-12">
           <input type="submit" class="primary" :disabled="!is_can_save" style="float: right" v-bind:value="Number(step) === 1 ? '保存' : '※上書きします'">
           <button type="reset" v-on:click.stop="reset_values" class="secondary" style="float: right">リセット</button>
-          [[this.eyes_str]]
         </div>
       </div>
     </fieldset>
@@ -179,6 +188,7 @@
   </ul>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
-<script src="{{ url_for('static', filename='annotate.js') }}"></script>
+{# <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script> #}
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.min.js"></script>
+<script src="{{ url_for('static', filename='js/annotate.min.js') }}"></script>
 {% endblock %}

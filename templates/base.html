@@ -2,15 +2,15 @@
 <html>
   <head>
     {% block head %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <title>{% block title %}{% endblock %} - Greatest Data</title>
     {% endblock %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css" />
-
-    <link rel="stylesheet" href="{{ url_for('static', filename='mini-sucroa-nowebfont-min.css') }}">
+    {# <link rel="stylesheet" href="{{ url_for('static', filename='css/mini-sucroa-nowebfont.gz.css') }}"> #}
+    {# <link rel="stylesheet" href="{{ url_for('static', filename='css/style.gz.css') }}"> #}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/mini-sucroa-nowebfont.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
   </head>
   <body>

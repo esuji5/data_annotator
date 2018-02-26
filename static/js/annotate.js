@@ -79,24 +79,19 @@ var app = new Vue({
       }
     },
     send_grad_or_eyes_str: function (kind) {
-      // return new Promise(function(resolve, reject) {
-        var ches = document.querySelectorAll("[type=radio]:checked")
-        var target_str = ''
-        for (var i=0; i< ches.length; i++) {
-          if(ches[i].id.indexOf(kind) > 0){
-            var label_text = ches[i].labels[0].innerText
-            target_str = target_str + label_text + ','
-          }
+      var ches = document.querySelectorAll("[type=radio]:checked")
+      var target_str = ''
+      for (var i=0; i< ches.length; i++) {
+        if(ches[i].id.indexOf(kind) > 0){
+          var label_text = ches[i].labels[0].innerText
+          target_str = target_str + label_text + ','
         }
-        if (kind == 'grad') {
-          console.log(kind)
-          this.grad_str = target_str
-          // resolve()
-        } else if (kind == 'eyes') {
-          this.eyes_str = target_str
-        }
-        console.log(kind)
-      // });
+      }
+      if (kind == 'grad') {
+        this.grad_str = target_str
+      } else if (kind == 'eyes') {
+        this.eyes_str = target_str
+      }
     },
     change_eyes_num: function () {
       this.have_eyes_num = this.get_have_eyes_num()

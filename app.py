@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, request, redirect, session, render_template, url_for
 from flask_s3 import FlaskS3
+from flask_compress import Compress
 
 from basic_auth import requires_auth
 from data import get_image_data
@@ -17,6 +18,7 @@ app.config.from_envvar('YUYU_DATA_SETTINGS')
 if not app.config['DEBUG'] and not app.config['TESTING']:
     s3 = FlaskS3(app)
 db = SQLAlchemy(app)
+Compress(app)
 
 
 def get_avatar():
