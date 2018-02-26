@@ -51,7 +51,7 @@
           <label style="padding: 0"><small>右から誰？</small></label>
         </div>
         <div class="col-sm-9">
-          <div class="input-group" v-on:click="send_who_str">
+          <div class="input-group" v-on:click="send_who_str" style="font-size: 18px;">
             <input type="radio" id="rad0_whos" tabindex="0" name="radio-group-2">
             <label for="rad0_whos">ゆ</label>
             <input type="radio" id="rad1_whos" tabindex="0" name="radio-group-2">
@@ -72,6 +72,9 @@
         </div>
         <div class="col-sm-2 col-sm-offset-3">
           <input type="text" v-bind:value="whos_str" id="whos" name="whos" value="">
+        </div>
+        <div class="col-sm-3 col-sm-offset-9">
+          <input type="submit" class="primary small" :disabled="!is_can_save" style="float: right" v-bind:value="Number(step) === 1 ? '保存' : '※上書きします'">
         </div>
       </div>
       <hr v-if="chara_num > 0" >
@@ -101,7 +104,7 @@
           <input type="text" v-bind:value="grad_str" id="grad" name="face_direction" value="">
         </div>
         <div class="col-sm-3 col-sm-offset-9">
-          <input type="submit" class="primary" :disabled="!is_can_save" style="float: right" v-bind:value="Number(step) === 1 ? '保存' : '※上書きします'">
+          <input type="submit" class="primary small" :disabled="!is_can_save" style="float: right" v-bind:value="Number(step) === 1 ? '保存' : '※上書きします'">
         </div>
       </div>
       <hr v-if="chara_num > 0" >
