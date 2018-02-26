@@ -13,7 +13,7 @@ from data import update_step1
 
 # setup flask
 app = Flask(__name__)
-app.config.from_object(__name__)  # load config from this file , flaskr.py
+app.config.from_object(__name__)
 app.config.from_envvar('YUYU_DATA_SETTINGS')
 if not app.config['DEBUG'] and not app.config['TESTING']:
     s3 = FlaskS3(app)
