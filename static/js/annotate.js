@@ -1,4 +1,5 @@
 var koma_id = document.getElementById('koma_id').value;
+var next_rand_id = document.getElementById('next_rand_id').value;
 
 var app = new Vue({
   el: '#annotate',
@@ -11,7 +12,9 @@ var app = new Vue({
     grad_str: '',
     eyes_str: '',
     step: 1,
+    grad_rad: 0,
     grad_list: ['左向き前', '右向き前', '正面前', '背面'],
+    chara_list: ['ゆ', '縁', '唯', '母', '千', '佳', 'ふ', '他'],
   },
   mounted: function () {
     this.koma_id = koma_id
@@ -20,6 +23,9 @@ var app = new Vue({
     this.grad_str = document.getElementById("face_direction").value
     this.eyes_str = document.getElementById("eyes").value
     this.step = document.getElementById("step").value
+    if (this.eyes_str) {
+      this.have_eyes_num = this.eyes_str.split(',').length - 1
+    }
   },
   computed: {
     is_can_save: function() {
@@ -40,7 +46,6 @@ var app = new Vue({
         const is_ok_str_length = is_equall_chara_num_and_whos_len && is_equall_grad_str_len_and_grad_str_len
 
         return is_ok_inputed_str && is_ok_str_length
-
       }
     },
     int_chara_num: function () {
@@ -56,13 +61,73 @@ var app = new Vue({
       return `${id_split[0]}巻${id_split[1]}ページ${id_split[2]}コマ目`
     }
   },
+  directives: {
+    focus: {
+      // 画面読み込み時、要素にフォーカスするディレクティブ定義
+      inserted: function (el) {
+        el.focus()
+      }
+    }
+  },
   methods: {
+    keymonitorCharaNum: function(event) {
+      if (event.key === 't'){
+        window.location.href = '/annotate/' + next_rand_id
+      }
+      var elems = document.querySelectorAll(`[value='${event.key}']`)
+      if (elems[0]) { elems[0].checked = true }
+      this.chara_num = event.key
+      document.getElementById('rad0_whos').focus()
+    },
+    keymonitorWho: function(event) {
+      if (event.key === 't'){
+        window.location.href = '/annotate/' + next_rand_id
+      }
+      if (event.key === 'Escape'){
+        this.whos_str = ''
+      } else if  (event.key === 'q'){
+        document.getElementById('rad_grad0-1').focus()
+      } else {
+        var who = this.chara_list[Number(event.key) - 1]
+        var elems = document.querySelectorAll(`[value='${who}']`)
+        if (elems[0]) {
+          elems[0].checked = true
+          this.whos_str = this.whos_str + who + ','
+        }
+      }
+    },
+    keymonitorGrad: function(event) {
+      if (event.key === 'esc'){
+        this.grad_str = ''
+      } else if  (event.key === 'e'){
+        if (this.is_can_save) {
+          var form = document.getElementById("annotate_form");
+          var form = document.querySelector("[type=submit]") ;
+          form.click()
+        }
+      } else if  (event.key === 'r'){
+        if (this.is_can_save) {
+          var form = document.getElementById("annotate_form");
+          var form = document.querySelector("[type=submit]") ;
+          form.click()
+        }
+      } else {
+        var grad = this.grad_list[Number(event.key) - 1]
+        var elems = document.querySelectorAll(`[value='${grad}']`)
+        this.grad_rad = (this.grad_rad % 3) + 1
+        var select_q = `[value='${grad}'][name=grad-${this.grad_rad}]`
+        document.querySelector(select_q).checked = true
+        this.change_eyes_num()
+      }
+    },
     get_have_eyes_num: function(){
       var ches = document.querySelectorAll("[type=radio]:checked")
       var have_eyes_num = 0
       for (var i=0; i< ches.length; i++) {
-        var label_text = ches[i].labels[0].innerText
-        label_text.indexOf('前') > 0 ? have_eyes_num++ : null
+        if (ches[i].labels.length > 0){
+          var label_text = ches[i].labels[0].innerText
+          label_text.indexOf('前') > 0 ? have_eyes_num++ : null
+        }
       }
       return have_eyes_num
     },
@@ -97,7 +162,9 @@ var app = new Vue({
       this.have_eyes_num = this.get_have_eyes_num()
 
       this.send_grad_or_eyes_str('grad')
-      setTimeout(this.send_grad_or_eyes_str, 50,'eyes');
+      this.$nextTick(function(){
+        this.send_grad_or_eyes_str('eyes')
+      })
     },
     reset_values: function (chara_num=1) {
       this.chara_num = chara_num === 1 ? 1 : 0

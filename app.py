@@ -7,7 +7,6 @@ from basic_auth import requires_auth
 from data import get_image_data
 from data import get_step1_inputer_dict
 from data import get_graph_script
-# from data import get_pie_chart_script
 from data import fetch_next_rand_id
 from data import update_step1
 

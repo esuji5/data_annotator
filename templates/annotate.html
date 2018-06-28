@@ -5,6 +5,7 @@
 {% endblock %}
 {% block content %}
 
+<input type="hidden" id="next_rand_id" value="{{ next_rand_id }}">
 {# step2以降のデータ確認用 #}
 <input type="hidden" id="chara_num" value="{{ img_data.chara_num|int|default(1, True) }}">
 <input type="hidden" id="whos" value="{{ img_data.whos|default('', True) }}">
@@ -17,18 +18,18 @@
     <img src="{{ url_for('static', filename=img_path) }}"/>
     <figcaption>[[ koma_id | captionFormat ]]</figcaption>
   </figure>
-  <form action="/save_annotate" method="post" style="margin: 0;">
+  <form action="/save_annotate" method="post" style="margin: 0;" id="annotate_form">
     <fieldset>
       <legend>step1</legend>
       <div class="row">
         <div class="col-sm-3">
-          <label style="padding: 0">人数[[chara_num]]</label>
+          <label style="padding: 0">人数</label>
         </div>
         <div class="col-sm-9">
           <div class="input-group">
-            <input type="radio" id="rad0_num" tabindex="0" name="chara_num" value="0" v-model="chara_num" v-on:click="send_chara_num">
+            <input type="radio" id="rad0_num" tabindex="0" name="chara_num" value="0" v-model="chara_num">
             <label for="rad0_num">0</label>
-            <input type="radio" id="rad1_num" tabindex="0" name="chara_num" value="1" v-model="chara_num">
+            <input type="radio" id="rad1_num" tabindex="0" name="chara_num" value="1" v-model="chara_num"  v-focus v-on:keyup="keymonitorCharaNum">
             <label for="rad1_num">1</label>
             <input type="radio" id="rad2_num" tabindex="0" name="chara_num" value="2" v-model="chara_num">
             <label for="rad2_num">2</label>
@@ -52,21 +53,21 @@
         </div>
         <div class="col-sm-9">
           <div class="input-group" v-on:click="send_who_str" style="font-size: 18px;">
-            <input type="radio" id="rad0_whos" tabindex="0" name="radio-group-2">
+            <input type="radio" value="ゆ" id="rad0_whos" tabindex="0" name="radio-group-2" v-on:keyup="keymonitorWho">
             <label for="rad0_whos">ゆ</label>
-            <input type="radio" id="rad1_whos" tabindex="0" name="radio-group-2">
+            <input type="radio" value="縁" v-on:keyup="keymonitorWho" id="rad1_whos" tabindex="0" name="radio-group-2">
             <label for="rad1_whos">縁</label>
-            <input type="radio" id="rad2_whos" tabindex="0" name="radio-group-2">
+            <input type="radio" value="唯" v-on:keyup="keymonitorWho" id="rad2_whos" tabindex="0" name="radio-group-2">
             <label for="rad2_whos">唯</label>
-            <input type="radio" id="rad3_whos" tabindex="0" name="radio-group-2">
+            <input type="radio" value="母" v-on:keyup="keymonitorWho" id="rad3_whos" tabindex="0" name="radio-group-2">
             <label for="rad3_whos">母</label>
-            <input type="radio" id="rad4_whos" tabindex="0" name="radio-group-2">
+            <input type="radio" value="千" v-on:keyup="keymonitorWho" id="rad4_whos" tabindex="0" name="radio-group-2">
             <label for="rad4_whos">千</label>
-            <input type="radio" id="rad5_whos" tabindex="0" name="radio-group-2">
+            <input type="radio" value="佳" v-on:keyup="keymonitorWho" id="rad5_whos" tabindex="0" name="radio-group-2">
             <label for="rad5_whos">佳</label>
-            <input type="radio" id="rad6_whos" tabindex="0" name="radio-group-2">
+            <input type="radio" value="ふ" v-on:keyup="keymonitorWho" id="rad6_whos" tabindex="0" name="radio-group-2">
             <label for="rad6_whos">ふ</label>
-            <input type="radio" id="rad7_whos" tabindex="0" name="radio-group-2">
+            <input type="radio" value="他" v-on:keyup="keymonitorWho" id="rad7_whos" tabindex="0" name="radio-group-2">
             <label for="rad7_whos">他</label>
           </div>
         </div>
@@ -87,11 +88,13 @@
             <template v-for="grad_num, index_j in grad_list">
               <input type="radio"
                tabindex="0"
-               v-bind:id="'rad_grad' + index_j + '-' + Number(index + 1)"
-               v-bind:name="'grad-' + Number(index + 3)"
+               v-bind:id="'rad_grad' + index_j + '-' + (index + 1)"
+               v-bind:name="'grad-' + (index + 1)"
+               v-bind:value="grad_list[index_j]"
                v-on:click="change_eyes_num"
+               v-on:keyup="keymonitorGrad"
                >
-              <label v-bind:for="'rad_grad' + index_j + '-' + Number(index + 1)">[[grad_num]]</label>
+              <label v-bind:for="'rad_grad' + index_j + '-' + (index + 1)">[[grad_num]]</label>
             </template>
           </div>
         </div>
@@ -108,7 +111,7 @@
         </div>
       </div>
       <hr v-if="chara_num > 0" >
-      <div v-if="chara_num > 0" v-for="n, index in have_eyes_num" class="row">
+      <div v-if="chara_num > 0" v-for="index in have_eyes_num" class="row">
         <div class="col-sm-3">
           <label style="padding: 0"><small>目の描写[[index+1]]</small></label>
         </div>
@@ -191,7 +194,8 @@
   </ul>
 </div>
 
-{# <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script> #}
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.min.js"></script>
-<script src="{{ url_for('static', filename='js/annotate.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+{# <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.min.js"></script> #}
+<script src="{{ url_for('static', filename='js/annotate.js') }}"></script>
+{# <script src="{{ url_for('static', filename='js/annotate.min.js') }}"></script> #}
 {% endblock %}

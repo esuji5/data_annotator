@@ -35,6 +35,19 @@ html {
 .ct-series-d .ct-bar, .ct-series-d .ct-line, .ct-series-d .ct-point, .ct-series-d .ct-slice-donut {
     stroke: #d6d2ce !important;
 }
+input:focus {
+  color: #fe8833;
+  background: #f2d7d8;
+  border: 5px !important;
+  border-color: #9b898a !important;
+}
+.input-group:focus {
+
+  background: #f2d7d8;
+  border: 2px !important;
+  border-color: #9b898a !important;
+}
+
 .yuzuko{
   color: #f2d7d8 !important;
 }

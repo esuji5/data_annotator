@@ -5,7 +5,6 @@ module.exports = function(grunt) {
   grunt.initConfig({
     root_dir: './src/main/webapp',
     pkg: grunt.file.readJSON('package.json'),
-
     uglify: {
       options: {
         banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
@@ -23,7 +22,6 @@ module.exports = function(grunt) {
       target: {
         files: [{
           expand: true,
-          //cwd: 'static',
           src: ['./static/css/style.css', '/static/css/!*.min.css'],
           dest: './',
           ext: '.min.css'
@@ -36,11 +34,8 @@ module.exports = function(grunt) {
           mode: 'gzip'
         },
         expand: true,
-        src: [
-        //'static/*.js',
-         'static/css/*.css'],
+        src: ['static/css/*.css'],
         dest: './',
-        //ext: '.gz.css'
         ext: '.gz.css'
       }
     },
@@ -48,9 +43,7 @@ module.exports = function(grunt) {
       options: { detail: true},
       index: {
         src: [
-          //'static/index.html',
           'static/annotate.min.js',
-          //'static/app.css'
         ],
       }
     }
@@ -64,10 +57,8 @@ module.exports = function(grunt) {
 
   // Default task(s).
   grunt.registerTask('default', ['uglify',
-    //'cssmin','gzip',
     'compress'
     ]);
-  //grunt.registerTask('default', ['gzip']);
 
 };
 
