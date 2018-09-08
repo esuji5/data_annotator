@@ -5,8 +5,8 @@ var app = new Vue({
   el: '#annotate',
   delimiters: ["[[", "]]"],
   data: {
-    chara_num: 1,
-    have_eyes_num: 0,
+    chara_num: 3,
+    have_eyes_num: 3,
     koma_id: '',
     whos_str: '',
     grad_str: '',
