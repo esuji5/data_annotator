@@ -7,7 +7,7 @@
 
 <input type="hidden" id="next_rand_id" value="{{ next_rand_id }}">
 {# step2以降のデータ確認用 #}
-<input type="hidden" id="chara_num" value="{{ img_data.chara_num|int|default(1, True) }}">
+<input type="hidden" id="chara_num" value="{{ img_data.chara_num|int|default(3, True) }}">
 <input type="hidden" id="whos" value="{{ img_data.whos|default('', True) }}">
 <input type="hidden" id="face_direction" value="{{ img_data.face_direction|default('', True) }}">
 <input type="hidden" id="eyes" value="{{ img_data.eyes|default('', True) }}">
@@ -194,8 +194,8 @@
   </ul>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
-{# <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.min.js"></script> #}
+{# <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script> #}
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.min.js"></script>
 <script src="{{ url_for('static', filename='js/annotate.js') }}"></script>
 {# <script src="{{ url_for('static', filename='js/annotate.min.js') }}"></script> #}
 {% endblock %}
