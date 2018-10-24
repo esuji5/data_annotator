@@ -77,6 +77,11 @@ var app = new Vue({
       var elems = document.querySelectorAll(`[value='${event.key}']`)
       if (elems[0]) { elems[0].checked = true }
       this.chara_num = event.key
+      if (this.chara_num === '0') {
+        var form = document.getElementById("annotate_form");
+        var form = document.querySelector("[type=submit]") ;
+        form.click()
+      }
       document.getElementById('rad0_whos').focus()
     },
     keymonitorWho: function(event) {
@@ -114,7 +119,7 @@ var app = new Vue({
       } else {
         var grad = this.grad_list[Number(event.key) - 1]
         var elems = document.querySelectorAll(`[value='${grad}']`)
-        this.grad_rad = (this.grad_rad % 3) + 1
+        this.grad_rad = (this.grad_rad % this.chara_num) + 1
         var select_q = `[value='${grad}'][name=grad-${this.grad_rad}]`
         document.querySelector(select_q).checked = true
         this.change_eyes_num()
@@ -167,12 +172,15 @@ var app = new Vue({
       })
     },
     reset_values: function (chara_num=1) {
-      this.chara_num = chara_num === 1 ? 1 : 0
-      this.have_eyes_num = 0
-      this.koma_id = ''
+      this.chara_num = chara_num === 1 ? 1 : 3
+      this.have_eyes_num = 3
+      this.koma_id = koma_id
       this.whos_str = ''
       this.grad_str = ''
       this.eyes_str = ''
+    },
+    reset_who_value: function () {
+      this.whos_str = ''
     },
   }
 })

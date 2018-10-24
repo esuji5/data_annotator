@@ -75,6 +75,7 @@
           <input type="text" v-bind:value="whos_str" id="whos" name="whos" value="">
         </div>
         <div class="col-sm-3 col-sm-offset-9">
+          <button type="button" v-on:click="reset_who_value" class="secondary" style="float: right">ここだけリセット</button>
           <input type="submit" class="primary small" :disabled="!is_can_save" style="float: right" v-bind:value="Number(step) === 1 ? '保存' : '※上書きします'">
         </div>
       </div>
@@ -196,6 +197,6 @@
 
 {# <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script> #}
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.min.js"></script>
-<script src="{{ url_for('static', filename='js/annotate.js') }}"></script>
-{# <script src="{{ url_for('static', filename='js/annotate.min.js') }}"></script> #}
+{# <script src="{{ url_for('static', filename='js/annotate.js') }}"></script> #}
+<script src="{{ url_for('static', filename='js/annotate.min.js') }}"></script>
 {% endblock %}

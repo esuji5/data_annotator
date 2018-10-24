@@ -25,24 +25,29 @@ def get_avatar():
 
 
 @app.route('/')
-@requires_auth
+# @requires_auth
 def top():
-    step1_inputer_dict = get_step1_inputer_dict(db)
-    graph_script = get_graph_script(step1_inputer_dict)
-    next_rand_id = fetch_next_rand_id(db)
-    return render_template('index.html', graph_script=graph_script,
-                           next_rand_id=next_rand_id, avatar=get_avatar())
+    # band_id = request.values['band_id']
+    band_id = request.values.get('band_id')
+    if band_id:
+        import pdb; pdb.set_trace()
+    else:
+        step1_inputer_dict = get_step1_inputer_dict(db)
+        graph_script = get_graph_script(step1_inputer_dict)
+        next_rand_id = fetch_next_rand_id(db)
+        return render_template('index.html', graph_script=graph_script,
+                               next_rand_id=next_rand_id, avatar=get_avatar())
 
 
 @app.route('/set_avatar/<avatar>')
-@requires_auth
+# @requires_auth
 def set_avatar(avatar):
     session['avatar'] = avatar if avatar != 'none' else None
     return redirect(url_for('top'))
 
 
 @app.route('/annotate/<koma_id>')
-@requires_auth
+# @requires_auth
 def annotate(koma_id):
     img_data = get_image_data(db, koma_id)
     img_path = img_data['img_path'].split('yuyu_data/')[-1]
@@ -52,7 +57,7 @@ def annotate(koma_id):
 
 
 @app.route('/save_annotate', methods=['POST'])
-@requires_auth
+# @requires_auth
 def save_annotate():
     # request.formのMultiDictだと変なlist型になるので普通のdictにする
     val_dict = {key: val for key, val in request.form.items()}
