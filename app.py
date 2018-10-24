@@ -3,7 +3,7 @@ from flask import Flask, request, redirect, session, render_template, url_for
 from flask_s3 import FlaskS3
 from flask_compress import Compress
 
-from basic_auth import requires_auth
+# from basic_auth import requires_auth
 from data import get_image_data
 from data import get_step1_inputer_dict
 from data import get_graph_script
@@ -27,16 +27,11 @@ def get_avatar():
 @app.route('/')
 # @requires_auth
 def top():
-    # band_id = request.values['band_id']
-    band_id = request.values.get('band_id')
-    if band_id:
-        import pdb; pdb.set_trace()
-    else:
-        step1_inputer_dict = get_step1_inputer_dict(db)
-        graph_script = get_graph_script(step1_inputer_dict)
-        next_rand_id = fetch_next_rand_id(db)
-        return render_template('index.html', graph_script=graph_script,
-                               next_rand_id=next_rand_id, avatar=get_avatar())
+    step1_inputer_dict = get_step1_inputer_dict(db)
+    graph_script = get_graph_script(step1_inputer_dict)
+    next_rand_id = fetch_next_rand_id(db)
+    return render_template('index.html', graph_script=graph_script,
+                           next_rand_id=next_rand_id, avatar=get_avatar())
 
 
 @app.route('/set_avatar/<avatar>')

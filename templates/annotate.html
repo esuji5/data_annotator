@@ -27,13 +27,13 @@
         </div>
         <div class="col-sm-9">
           <div class="input-group">
-            <input type="radio" id="rad0_num" tabindex="0" name="chara_num" value="0" v-model="chara_num">
-            <label for="rad0_num">0</label>
-            <input type="radio" id="rad1_num" tabindex="0" name="chara_num" value="1" v-model="chara_num"  v-focus v-on:keyup="keymonitorCharaNum">
+            <input type="radio" id="rad0_num" tabindex="0" name="chara_num" value="0" v-model="chara_num" v-on:click="submit_0_chara_num">
+            <label for="rad0_num" v-on:click="submit_0_chara_num">0</label>
+            <input type="radio" id="rad1_num" tabindex="0" name="chara_num" value="1" v-model="chara_num">
             <label for="rad1_num">1</label>
             <input type="radio" id="rad2_num" tabindex="0" name="chara_num" value="2" v-model="chara_num">
             <label for="rad2_num">2</label>
-            <input type="radio" id="rad3_num" tabindex="0" name="chara_num" value="3" v-model="chara_num">
+            <input type="radio" id="rad3_num" tabindex="0" name="chara_num" value="3" v-model="chara_num" v-focus v-on:keyup="keymonitorCharaNum">
             <label for="rad3_num">3</label>
             <input type="radio" id="rad4_num" tabindex="0" name="chara_num" value="4" v-model="chara_num">
             <label for="rad4_num">4</label>
@@ -75,8 +75,8 @@
           <input type="text" v-bind:value="whos_str" id="whos" name="whos" value="">
         </div>
         <div class="col-sm-3 col-sm-offset-9">
-          <button type="button" v-on:click="reset_who_value" class="secondary" style="float: right">ここだけリセット</button>
           <input type="submit" class="primary small" :disabled="!is_can_save" style="float: right" v-bind:value="Number(step) === 1 ? '保存' : '※上書きします'">
+          {# <button type="button" v-on:click="reset_who_value" class="secondary small" style="float: right">ここリセ</button> #}
         </div>
       </div>
       <hr v-if="chara_num > 0" >
@@ -117,12 +117,13 @@
           <label style="padding: 0"><small>目の描写[[index+1]]</small></label>
         </div>
         <div class="col-sm-9">
-          <div class="input-group" name="ches"v-on:click="send_grad_or_eyes_str('eyes')">
+          <div class="input-group" name="ches" v-on:click="send_grad_or_eyes_str('eyes')">
             <input type="radio"
              tabindex="0"
              v-bind:id="'rad0_eyes' + Number(index + 1)"
              v-bind:name="'eyes-' + Number(index + 3)"
              v-on:click="send_grad_or_eyes_str('eyes')"
+             v-on:keyup="keymonitorEyes"
              >
             <label v-bind:for="'rad0_eyes' + Number(index + 1)">詳細</label>
             <input type="radio"
@@ -130,6 +131,7 @@
              checked
              v-bind:id="'rad2_eyes' + Number(index + 1)"
              v-bind:name="'eyes-' + Number(index + 3)"
+             v-on:keyup="keymonitorEyes"
              >
             <label v-bind:for="'rad2_eyes' + Number(index + 1)">隠れ</label>
             <input type="radio"
@@ -137,6 +139,7 @@
              checked
              v-bind:id="'rad1_eyes' + Number(index + 1)"
              v-bind:name="'eyes-' + Number(index + 3)"
+             v-on:keyup="keymonitorEyes"
              >
             <label v-bind:for="'rad1_eyes' + Number(index + 1)">デフォルメ</label>
           </div>
@@ -148,7 +151,7 @@
             <label style="padding: 0"></label>
           </div>
           <div class="col-sm-9">
-            <input v-on:click="send_grad_or_eyes_str('eyes')" type="text" v-bind:value="eyes_str" id="eyes" name="eyes" placeholder="If OK, tap here" value="">
+            <input v-on:click="send_grad_or_eyes_str('eyes')" type="text" v-bind:value="eyes_str" id="eyes" name="eyes" value="">
           </div>
         </div>
         <hr/>
@@ -195,8 +198,8 @@
   </ul>
 </div>
 
-{# <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script> #}
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.min.js"></script>
-{# <script src="{{ url_for('static', filename='js/annotate.js') }}"></script> #}
-<script src="{{ url_for('static', filename='js/annotate.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+{# <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.min.js"></script> #}
+<script src="{{ url_for('static', filename='js/annotate.js') }}"></script>
+{# <script src="{{ url_for('static', filename='js/annotate.min.js') }}"></script> #}
 {% endblock %}

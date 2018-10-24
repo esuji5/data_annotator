@@ -6,7 +6,7 @@ var app = new Vue({
   delimiters: ["[[", "]]"],
   data: {
     chara_num: 3,
-    have_eyes_num: 3,
+    have_eyes_num: 0,
     koma_id: '',
     whos_str: '',
     grad_str: '',
@@ -15,6 +15,7 @@ var app = new Vue({
     grad_rad: 0,
     grad_list: ['左向き前', '右向き前', '正面前', '背面'],
     chara_list: ['ゆ', '縁', '唯', '母', '千', '佳', 'ふ', '他'],
+    eyes_list: ['詳細', '隠れ', 'デフォルメ'],
   },
   mounted: function () {
     this.koma_id = koma_id
@@ -65,11 +66,21 @@ var app = new Vue({
     focus: {
       // 画面読み込み時、要素にフォーカスするディレクティブ定義
       inserted: function (el) {
+        console.log('el',el)
         el.focus()
       }
     }
   },
   methods: {
+    submit_0_chara_num: function() {
+      console.log('submit_0_chara_num')
+      this.reset_values()
+      this.$nextTick(function(){
+        console.log('tick')
+        this.submit_by_key()
+        // this.send_grad_or_eyes_str('eyes')
+      })
+    },
     keymonitorCharaNum: function(event) {
       if (event.key === 't'){
         window.location.href = '/annotate/' + next_rand_id
@@ -125,6 +136,37 @@ var app = new Vue({
         this.change_eyes_num()
       }
     },
+    keymonitorEyes: function(event) {
+    //   if (event.key === 'esc'){
+    //     this.grad_str = ''
+    //   } else if  (event.key === 'e'){
+    //     if (this.is_can_save) {
+    //       var form = document.getElementById("annotate_form");
+    //       var form = document.querySelector("[type=submit]") ;
+    //       form.click()
+    //     }
+    //   } else if  (event.key === 'r'){
+    //     if (this.is_can_save) {
+    //       var form = document.getElementById("annotate_form");
+    //       var form = document.querySelector("[type=submit]") ;
+    //       form.click()
+    //     }
+    //   } else {
+    //     var eyes = this.eyes_list[Number(event.key) - 1]
+    //     var elems = document.querySelectorAll(`[value='${eyes}']`)
+    //     this.eyes_rad = (this.eyes_rad % this.chara_num) + 1
+    //     var select_q = `[value='${eyes}'][name=eyes-${this.eyes_rad}]`
+    //     document.querySelector(select_q).checked = true
+    //     this.change_eyes_num()
+    //   }
+    },
+    submit_by_key: function(){
+      console.log('submit suruzo')
+      var form = document.getElementById("annotate_form");
+      var form = document.querySelector("[type=submit]") ;
+      form.click()
+      console.log('click')
+    },
     get_have_eyes_num: function(){
       var ches = document.querySelectorAll("[type=radio]:checked")
       var have_eyes_num = 0
@@ -172,8 +214,9 @@ var app = new Vue({
       })
     },
     reset_values: function (chara_num=1) {
-      this.chara_num = chara_num === 1 ? 1 : 3
-      this.have_eyes_num = 3
+      console.log('reset')
+      this.chara_num = chara_num === 1 ? 1 : 0
+      this.have_eyes_num = 0
       this.koma_id = koma_id
       this.whos_str = ''
       this.grad_str = ''
@@ -181,6 +224,7 @@ var app = new Vue({
     },
     reset_who_value: function () {
       this.whos_str = ''
+      document.getElementById('rad0_whos').focus()
     },
-  }
+  },
 })
