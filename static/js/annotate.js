@@ -66,18 +66,15 @@ var app = new Vue({
     focus: {
       // 画面読み込み時、要素にフォーカスするディレクティブ定義
       inserted: function (el) {
-        console.log('el',el)
+        console.log('focus',el)
         el.focus()
       }
     }
   },
   methods: {
     submit_0_chara_num: function() {
-      console.log('submit_0_chara_num')
-      this.chara_num = 0
-      this.reset_values()
+      this.reset_values(0)
       this.$nextTick(function(){
-        console.log('tick')
         this.submit_by_key()
       })
     },
@@ -113,14 +110,12 @@ var app = new Vue({
     keymonitorGrad: function(event) {
       if (event.key === 'esc'){
         this.grad_str = ''
+      } else if  (event.key === 'q'){
+        document.getElementById('rad0_eyes2').focus()
       } else if  (event.key === 'e'){
-        if (this.is_can_save) {
-          this.submit_by_key()
-        }
+        if (this.is_can_save) { this.submit_by_key() }
       } else if  (event.key === 'r'){
-        if (this.is_can_save) {
-          this.submit_by_key()
-        }
+        if (this.is_can_save) { this.submit_by_key() }
       } else {
         var grad = this.grad_list[Number(event.key) - 1]
         var elems = document.querySelectorAll(`[value='${grad}']`)
@@ -131,31 +126,24 @@ var app = new Vue({
       }
     },
     keymonitorEyes: function(event) {
-    //   if (event.key === 'esc'){
-    //     this.grad_str = ''
-    //   } else if  (event.key === 'e'){
-    //     if (this.is_can_save) {
-    //       this.submit_by_key()
-    //     }
-    //   } else if  (event.key === 'r'){
-    //     if (this.is_can_save) {
-    //       this.submit_by_key()
-    //     }
-    //   } else {
-    //     var eyes = this.eyes_list[Number(event.key) - 1]
-    //     var elems = document.querySelectorAll(`[value='${eyes}']`)
-    //     this.eyes_rad = (this.eyes_rad % this.chara_num) + 1
-    //     var select_q = `[value='${eyes}'][name=eyes-${this.eyes_rad}]`
-    //     document.querySelector(select_q).checked = true
-    //     this.change_eyes_num()
-    //   }
+      if (event.key === 'esc'){
+        this.eyes_str = ''
+      } else if  (event.key === 'e'){
+        if (this.is_can_save) { this.submit_by_key() }
+      } else if  (event.key === 'r'){
+        if (this.is_can_save) { this.submit_by_key() }
+      } else {
+        var eyes = this.eyes_list[Number(event.key) - 1]
+        var elems = document.querySelectorAll(`[value='${eyes}']`)
+        this.eyes_rad = (this.eyes_rad % this.have_eyes_num) + 1
+        var select_q = `[value='${eyes}'][name=eyes-${this.eyes_rad + 2}]`
+        document.querySelector(select_q).checked = true
+      }
     },
     submit_by_key: function(){
-      console.log('submit suruzo')
       var form = document.getElementById("annotate_form");
       var form = document.querySelector("[type=submit]") ;
       form.click()
-      console.log('click')
     },
     get_have_eyes_num: function(){
       var ches = document.querySelectorAll("[type=radio]:checked")
@@ -175,6 +163,7 @@ var app = new Vue({
       }
     },
     send_who_str: function (elem) {
+      console.log('sws', elem)
       var value = elem.target.labels[0].innerText
       if (value && value.length == 1){
         this.whos_str = this.whos_str + value + ','

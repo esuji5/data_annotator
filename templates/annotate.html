@@ -74,25 +74,26 @@
         <div class="col-sm-2 col-sm-offset-3">
           <input type="text" v-bind:value="whos_str" id="whos" name="whos" value="">
         </div>
-        <div class="col-sm-3 col-sm-offset-9">
+        <div class="col-sm-12">
           <input type="submit" class="primary small" :disabled="!is_can_save" style="float: right" v-bind:value="Number(step) === 1 ? '保存' : '※上書きします'">
-          <button type="button" v-on:click="reset_who_value" class="secondary small" style="float: right">ここリセ</button>
+          <button v-on:click="reset_who_value" class="secondary small" style="float: right">ここリセ</button>
         </div>
       </div>
       <hr v-if="chara_num > 0" >
+
       <div v-if="chara_num > 0" v-for="n, index in int_chara_num" class="row">
         <div class="col-sm-3">
-          <label style="padding: 0"><small>顔の方向[[index+1]]</small></label>
+          <label style="padding: 0"><small>顔の方向[[n]]</small></label>
         </div>
         <div class="col-sm-9">
-          <div class="input-group">
+          <div class="input-group" v-on:click="change_eyes_num">
+
             <template v-for="grad_num, index_j in grad_list">
               <input type="radio"
                tabindex="0"
                v-bind:id="'rad_grad' + index_j + '-' + (index + 1)"
                v-bind:name="'grad-' + (index + 1)"
                v-bind:value="grad_list[index_j]"
-               v-on:click="change_eyes_num"
                v-on:keyup="keymonitorGrad"
                >
               <label v-bind:for="'rad_grad' + index_j + '-' + (index + 1)">[[grad_num]]</label>
@@ -107,14 +108,15 @@
         <div class="col-sm-9">
           <input type="text" v-bind:value="grad_str" id="grad" name="face_direction" value="">
         </div>
-        <div class="col-sm-3 col-sm-offset-9">
+        <div class="col-sm-12">
           <input type="submit" class="primary small" :disabled="!is_can_save" style="float: right" v-bind:value="Number(step) === 1 ? '保存' : '※上書きします'">
         </div>
       </div>
-      <hr v-if="chara_num > 0" >
-      <div v-if="chara_num > 0" v-for="index in have_eyes_num" class="row">
+
+      <hr>
+      <div v-if="have_eyes_num > 0" v-for="n, index in have_eyes_num" class="row">
         <div class="col-sm-3">
-          <label style="padding: 0"><small>目の描写[[index+1]]</small></label>
+          <label style="padding: 0"><small>目の描写[[n]]</small></label>
         </div>
         <div class="col-sm-9">
           <div class="input-group" name="ches" v-on:click="send_grad_or_eyes_str('eyes')">
@@ -122,7 +124,6 @@
              tabindex="0"
              v-bind:id="'rad0_eyes' + Number(index + 1)"
              v-bind:name="'eyes-' + Number(index + 3)"
-             v-on:click="send_grad_or_eyes_str('eyes')"
              v-on:keyup="keymonitorEyes"
              >
             <label v-bind:for="'rad0_eyes' + Number(index + 1)">詳細</label>
@@ -145,7 +146,7 @@
           </div>
         </div>
       </div>
-      <div v-if="chara_num > 0 && have_eyes_num > 0">
+      <div v-if="have_eyes_num > 0">
         <div class="row">
           <div class="col-sm-3">
             <label style="padding: 0"></label>
@@ -154,7 +155,7 @@
             <input v-on:click="send_grad_or_eyes_str('eyes')" type="text" v-bind:value="eyes_str" id="eyes" name="eyes" value="">
           </div>
         </div>
-        <hr/>
+        <hr>
       </div>
 
       {# 0人時の対応でnameと空文字valueを用意 #}
@@ -198,8 +199,8 @@
   </ul>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
-{# <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.min.js"></script> #}
+{# <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script> #}
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.min.js"></script>
 <script src="{{ url_for('static', filename='js/annotate.js') }}"></script>
 {# <script src="{{ url_for('static', filename='js/annotate.min.js') }}"></script> #}
 {% endblock %}
