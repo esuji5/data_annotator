@@ -76,7 +76,7 @@
         </div>
         <div class="col-sm-12">
           <input type="submit" class="primary small" :disabled="!is_can_save" style="float: right" v-bind:value="Number(step) === 1 ? '保存' : '※上書きします'">
-          <button v-on:click="reset_who_value" class="secondary small" style="float: right">ここリセ</button>
+          <button v-on:click.stop="reset_who_value" class="secondary small" style="float: right">ここリセ</button>
         </div>
       </div>
       <hr v-if="chara_num > 0" >
