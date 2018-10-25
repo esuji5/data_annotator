@@ -74,11 +74,11 @@ var app = new Vue({
   methods: {
     submit_0_chara_num: function() {
       console.log('submit_0_chara_num')
+      this.chara_num = 0
       this.reset_values()
       this.$nextTick(function(){
         console.log('tick')
         this.submit_by_key()
-        // this.send_grad_or_eyes_str('eyes')
       })
     },
     keymonitorCharaNum: function(event) {
@@ -89,9 +89,7 @@ var app = new Vue({
       if (elems[0]) { elems[0].checked = true }
       this.chara_num = event.key
       if (this.chara_num === '0') {
-        var form = document.getElementById("annotate_form");
-        var form = document.querySelector("[type=submit]") ;
-        form.click()
+        this.submit_by_key()
       }
       document.getElementById('rad0_whos').focus()
     },
@@ -117,15 +115,11 @@ var app = new Vue({
         this.grad_str = ''
       } else if  (event.key === 'e'){
         if (this.is_can_save) {
-          var form = document.getElementById("annotate_form");
-          var form = document.querySelector("[type=submit]") ;
-          form.click()
+          this.submit_by_key()
         }
       } else if  (event.key === 'r'){
         if (this.is_can_save) {
-          var form = document.getElementById("annotate_form");
-          var form = document.querySelector("[type=submit]") ;
-          form.click()
+          this.submit_by_key()
         }
       } else {
         var grad = this.grad_list[Number(event.key) - 1]
@@ -141,15 +135,11 @@ var app = new Vue({
     //     this.grad_str = ''
     //   } else if  (event.key === 'e'){
     //     if (this.is_can_save) {
-    //       var form = document.getElementById("annotate_form");
-    //       var form = document.querySelector("[type=submit]") ;
-    //       form.click()
+    //       this.submit_by_key()
     //     }
     //   } else if  (event.key === 'r'){
     //     if (this.is_can_save) {
-    //       var form = document.getElementById("annotate_form");
-    //       var form = document.querySelector("[type=submit]") ;
-    //       form.click()
+    //       this.submit_by_key()
     //     }
     //   } else {
     //     var eyes = this.eyes_list[Number(event.key) - 1]
