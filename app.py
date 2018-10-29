@@ -1,5 +1,3 @@
-from urllib.parse import urljoin
-
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, request, redirect, session, render_template, url_for
 # from flask_s3 import FlaskS3
