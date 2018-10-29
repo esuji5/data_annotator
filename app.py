@@ -18,7 +18,7 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 app.config.from_envvar('YUYU_DATA_SETTINGS')
 if not app.config['DEBUG'] and not app.config['TESTING']:
-    app.config['STATIC_URL'] = 'http://d1jm3kuvjv07m2.cloudfront.net/static'
+    app.config['STATIC_URL'] = 'http://d1jm3kuvjv07m2.cloudfront.net'
     # FlaskS3(app)  # for jpg
 db = SQLAlchemy(app)
 Compress(app)
@@ -32,9 +32,9 @@ def get_avatar():
 def static_url(filename):
     static_url = app.config.get('STATIC_URL')
 
-    print('static_url', urljoin(static_url, filename))
+    print('static_url', urljoin(static_url, 'static', filename))
     if static_url:
-        return urljoin(static_url, filename)
+        return urljoin(static_url, 'static', filename)
 
     return url_for('static', filename=filename)
 
