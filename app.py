@@ -1,6 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, request, redirect, session, render_template, url_for
-from flask_s3 import FlaskS3
+# from flask_s3 import FlaskS3
 from flask.ext.cdn import CDN
 
 from flask_compress import Compress
@@ -19,8 +19,8 @@ app.config.from_envvar('YUYU_DATA_SETTINGS')
 if not app.config['DEBUG'] and not app.config['TESTING']:
     print('use CDN')
     app.config['CDN_DOMAIN'] = 'd1jm3kuvjv07m2.cloudfront.net'
-    FlaskS3(app)  # for jpg
     CDN(app)  # for js, css
+    # FlaskS3(app)  # for jpg
 db = SQLAlchemy(app)
 Compress(app)
 
@@ -46,12 +46,18 @@ def set_avatar(avatar):
     return redirect(url_for('top'))
 
 
+@app.route('/annotate/')
+def annotate_no_id():
+    return redirect(url_for('top'))
+
+
 @app.route('/annotate/<koma_id>')
 # @requires_auth
 def annotate(koma_id):
     img_data = get_image_data(db, koma_id)
     img_path = img_data['img_path'].split('yuyu_data/')[-1]
     next_rand_id = fetch_next_rand_id(db)
+    print(app.config.get('STATIC_URL'), img_path)
     return render_template('annotate.html', img_path=img_path, img_data=img_data,
                            koma_id=koma_id, next_rand_id=next_rand_id, avatar=get_avatar())
 
