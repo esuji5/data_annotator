@@ -20,10 +20,10 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 app.config.from_envvar('YUYU_DATA_SETTINGS')
 if not app.config['DEBUG'] and not app.config['TESTING']:
-    print('use CDN')
-    app.config['CDN_DOMAIN'] = 'd1jm3kuvjv07m2.cloudfront.net'
+    # print('use CDN')
+    # app.config['CDN_DOMAIN'] = 'd1jm3kuvjv07m2.cloudfront.net'
     app.config['STATIC_URL'] = 'http://d1jm3kuvjv07m2.cloudfront.net/static'
-    CDN(app)  # for js, css
+    # CDN(app)  # for js, css
     # FlaskS3(app)  # for jpg
 db = SQLAlchemy(app)
 Compress(app)
