@@ -15,7 +15,7 @@
 
 <div id="annotate" class="container">
   <figure class="annotate_img">
-    <img src="{{ url_for('static', filename=img_path) }}"/>
+    <img src="{{ static_url(filename=img_path) }}"/>
     <figcaption>[[ koma_id | captionFormat ]]</figcaption>
   </figure>
   <form action="/save_annotate" method="post" style="margin: 0;" id="annotate_form">

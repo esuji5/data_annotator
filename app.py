@@ -67,7 +67,6 @@ def annotate(koma_id):
     img_data = get_image_data(db, koma_id)
     img_path = img_data['img_path'].split('yuyu_data/')[-1]
     next_rand_id = fetch_next_rand_id(db)
-    print(url_for("static", filename=img_path))
     print(url_for("static", filename=img_path, _external=True))
     print(app.config.get('STATIC_URL'), img_path)
     return render_template('annotate.html', img_path=img_path, img_data=img_data,
