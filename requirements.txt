@@ -6,6 +6,7 @@ chardet==3.0.4
 click==6.7
 docutils==0.14
 Flask==0.12.2
+Flask-CDN==1.5.3
 Flask-Compress==1.4.0
 Flask-OAuth==0.12
 Flask-S3==0.3.3
@@ -17,7 +18,7 @@ itsdangerous==0.24
 Jinja2==2.10
 jmespath==0.9.3
 MarkupSafe==1.0
-numpy==1.14.1
+numpy==1.15.1
 oauth2==1.9.0.post1
 oauthlib==2.0.6
 packaging==16.8

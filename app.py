@@ -1,6 +1,8 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, request, redirect, session, render_template, url_for
-from flask_s3 import FlaskS3
+# from flask_s3 import FlaskS3
+from flask.ext.cdn import CDN
+
 from flask_compress import Compress
 
 # from basic_auth import requires_auth
@@ -15,7 +17,9 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 app.config.from_envvar('YUYU_DATA_SETTINGS')
 if not app.config['DEBUG'] and not app.config['TESTING']:
-    s3 = FlaskS3(app)
+    # s3 = FlaskS3(app)
+    app.config['CDN_DOMAIN'] = 'd1jm3kuvjv07m2.cloudfront.net'
+    CDN(app)
 db = SQLAlchemy(app)
 Compress(app)
 
