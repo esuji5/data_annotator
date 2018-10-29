@@ -3,8 +3,8 @@ from urllib.parse import urljoin
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, request, redirect, session, render_template, url_for
 # from flask_s3 import FlaskS3
-
 from flask_compress import Compress
+import furl
 
 # from basic_auth import requires_auth
 from data import get_image_data
@@ -32,9 +32,9 @@ def get_avatar():
 def static_url(filename):
     static_url = app.config.get('STATIC_URL')
 
-    print('static_url', urljoin(static_url, 'static/' + filename))
+    print('static_url', furl.furl(static_url).join('static/' + filename))
     if static_url:
-        return urljoin(static_url, 'static/' + filename)
+        return furl.furl(static_url).join('static/' + filename)
 
     return url_for('static', filename=filename)
 
