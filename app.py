@@ -22,7 +22,7 @@ app.config.from_envvar('YUYU_DATA_SETTINGS')
 if not app.config['DEBUG'] and not app.config['TESTING']:
     print('use CDN')
     app.config['CDN_DOMAIN'] = 'd1jm3kuvjv07m2.cloudfront.net'
-    # app.config['STATIC_URL'] = 'http://d1jm3kuvjv07m2.cloudfront.net/static'
+    app.config['STATIC_URL'] = 'http://d1jm3kuvjv07m2.cloudfront.net/static'
     CDN(app)  # for js, css
     # FlaskS3(app)  # for jpg
 db = SQLAlchemy(app)
@@ -33,15 +33,23 @@ def get_avatar():
     return session.get('avatar', None)
 
 
-@app.endpoint('static')
-def static(filename):
+# @app.endpoint('static')
+# def static(filename):
+#     static_url = app.config.get('STATIC_URL')
+
+#     if static_url:
+#         return redirect(urljoin(static_url, filename))
+#     print('in static', app.send_static_file(filename))
+#     return app.send_static_file(filename)
+
+@app.template_global()
+def static_url(filename):
     static_url = app.config.get('STATIC_URL')
 
     if static_url:
-        return redirect(urljoin(static_url, filename))
+        return urljoin(static_url, filename)
 
-    return app.send_static_file(filename)
-
+    return url_for('static', filename=filename)
 
 @app.route('/')
 # @requires_auth
