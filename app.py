@@ -32,9 +32,9 @@ def get_avatar():
 def static_url(filename):
     static_url = app.config.get('STATIC_URL')
 
-    print('static_url', urljoin(static_url, 'static', filename))
+    print('static_url', urljoin(static_url, 'static/' + filename))
     if static_url:
-        return urljoin(static_url, 'static', filename)
+        return urljoin(static_url, 'static/' + filename)
 
     return url_for('static', filename=filename)
 
