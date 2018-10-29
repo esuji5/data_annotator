@@ -32,8 +32,8 @@ def get_avatar():
 def static_url(filename):
     static_url = app.config.get('STATIC_URL')
 
+    print('static_url', urljoin(static_url, filename))
     if static_url:
-        print(urljoin(static_url, filename))
         return urljoin(static_url, filename)
 
     return url_for('static', filename=filename)
@@ -67,8 +67,8 @@ def annotate(koma_id):
     img_data = get_image_data(db, koma_id)
     img_path = img_data['img_path'].split('yuyu_data/')[-1]
     next_rand_id = fetch_next_rand_id(db)
-    print(url_for("static", filename=img_path, _external=True))
-    print(app.config.get('STATIC_URL'), img_path)
+    # print(url_for("static", filename=img_path, _external=True))
+    # print(app.config.get('STATIC_URL'), img_path)
     return render_template('annotate.html', img_path=img_path, img_data=img_data,
                            koma_id=koma_id, next_rand_id=next_rand_id, avatar=get_avatar())
 
