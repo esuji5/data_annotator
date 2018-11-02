@@ -1,6 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, request, redirect, session, render_template, url_for
-# from flask_s3 import FlaskS3
 from flask_compress import Compress
 import furl
 
@@ -17,7 +16,6 @@ app.config.from_object(__name__)
 app.config.from_envvar('YUYU_DATA_SETTINGS')
 if not app.config['DEBUG'] and not app.config['TESTING']:
     app.config['STATIC_URL'] = 'http://d1jm3kuvjv07m2.cloudfront.net'
-    # FlaskS3(app)  # for jpg
 db = SQLAlchemy(app)
 Compress(app)
 
@@ -65,8 +63,6 @@ def annotate(koma_id):
     img_data = get_image_data(db, koma_id)
     img_path = img_data['img_path'].split('yuyu_data/')[-1]
     next_rand_id = fetch_next_rand_id(db)
-    # print(url_for("static", filename=img_path, _external=True))
-    # print(app.config.get('STATIC_URL'), img_path)
     return render_template('annotate.html', img_path=img_path, img_data=img_data,
                            koma_id=koma_id, next_rand_id=next_rand_id, avatar=get_avatar())
 

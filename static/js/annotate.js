@@ -31,7 +31,7 @@ var app = new Vue({
   computed: {
     is_can_save: function() {
       // 簡単なバリデーション
-      if (this.chara_num == 0){
+      if (this.chara_num == 0) {
         // 0人
         var is_blank_fill_whos_and_grad = this.whos_str === '' && this.grad_str === ''
         var is_eyes_input_ok = this.eyes_str === '' && this.have_eyes_num === 0
@@ -74,29 +74,33 @@ var app = new Vue({
   methods: {
     submit_0_chara_num: function() {
       this.reset_values(0)
-      this.$nextTick(function(){
+      this.$nextTick(function() {
         this.submit_by_key()
       })
     },
     keymonitorCharaNum: function(event) {
-      if (event.key === 't'){
+      if (event.key === 'r') {
+        window.location.href = '/annotate/' + next_rand_id + '?default_eye='
+      } else if (event.key === 't') {
         window.location.href = '/annotate/' + next_rand_id
+      } else {
+        var elems = document.querySelectorAll(`[value='${event.key}']`)
+        if (elems[0]) { elems[0].checked = true }
+        this.chara_num = event.key
+        if (this.chara_num === '0') {
+          this.submit_by_key()
+        }
+        document.getElementById('rad0_whos').focus()
       }
-      var elems = document.querySelectorAll(`[value='${event.key}']`)
-      if (elems[0]) { elems[0].checked = true }
-      this.chara_num = event.key
-      if (this.chara_num === '0') {
-        this.submit_by_key()
-      }
-      document.getElementById('rad0_whos').focus()
     },
     keymonitorWho: function(event) {
-      if (event.key === 't'){
+      if (event.key === 'r') {
         window.location.href = '/annotate/' + next_rand_id
-      }
-      if (event.key === 'Escape'){
+      } else if (event.key === 't') {
+        window.location.href = '/annotate/' + next_rand_id
+      } else if (event.key === 'Escape') {
         this.whos_str = ''
-      } else if  (event.key === 'q'){
+      } else if (event.key === 'q') {
         document.getElementById('rad_grad0-1').focus()
       } else {
         var who = this.chara_list[Number(event.key) - 1]
@@ -108,13 +112,14 @@ var app = new Vue({
       }
     },
     keymonitorGrad: function(event) {
-      if (event.key === 'esc'){
+      if (event.key === 'esc') {
         this.grad_str = ''
-      } else if  (event.key === 'q'){
+      } else if (event.key === 'q') {
+        var elems = document.querySelectorAll(`[value='${eyes}']`)
         document.getElementById('rad0_eyes2').focus()
-      } else if  (event.key === 'e'){
+      } else if (event.key === 'e') {
         if (this.is_can_save) { this.submit_by_key() }
-      } else if  (event.key === 'r'){
+      } else if (event.key === 'r') {
         if (this.is_can_save) { this.submit_by_key() }
       } else {
         var grad = this.grad_list[Number(event.key) - 1]
@@ -126,30 +131,34 @@ var app = new Vue({
       }
     },
     keymonitorEyes: function(event) {
-      if (event.key === 'esc'){
+      if (event.key === 'esc') {
         this.eyes_str = ''
-      } else if  (event.key === 'e'){
+      } else if (event.key === 'e') {
         if (this.is_can_save) { this.submit_by_key() }
-      } else if  (event.key === 'r'){
+      } else if (event.key === 'r') {
         if (this.is_can_save) { this.submit_by_key() }
       } else {
         var eyes = this.eyes_list[Number(event.key) - 1]
+        console.log(eyes)
         var elems = document.querySelectorAll(`[value='${eyes}']`)
+        console.log(elems)
         this.eyes_rad = (this.eyes_rad % this.have_eyes_num) + 1
+        console.log(this.eyes_rad)
         var select_q = `[value='${eyes}'][name=eyes-${this.eyes_rad + 2}]`
+        console.log(select_q)
         document.querySelector(select_q).checked = true
       }
     },
-    submit_by_key: function(){
+    submit_by_key: function() {
       var form = document.getElementById("annotate_form");
       var form = document.querySelector("[type=submit]") ;
       form.click()
     },
-    get_have_eyes_num: function(){
+    get_have_eyes_num: function() {
       var ches = document.querySelectorAll("[type=radio]:checked")
       var have_eyes_num = 0
       for (var i=0; i< ches.length; i++) {
-        if (ches[i].labels.length > 0){
+        if (ches[i].labels.length > 0) {
           var label_text = ches[i].labels[0].innerText
           label_text.indexOf('前') > 0 ? have_eyes_num++ : null
         }
@@ -158,14 +167,14 @@ var app = new Vue({
     },
     send_chara_num: function (elem) {
       var value = elem.target.labels[0].innerText
-      if (Number(value) === 0){
+      if (Number(value) === 0) {
         this.reset_values(0)
       }
     },
     send_who_str: function (elem) {
       console.log('sws', elem)
       var value = elem.target.labels[0].innerText
-      if (value && value.length == 1){
+      if (value && value.length == 1) {
         this.whos_str = this.whos_str + value + ','
       }
     },
@@ -173,7 +182,7 @@ var app = new Vue({
       var ches = document.querySelectorAll("[type=radio]:checked")
       var target_str = ''
       for (var i=0; i< ches.length; i++) {
-        if(ches[i].id.indexOf(kind) > 0){
+        if(ches[i].id.indexOf(kind) > 0) {
           var label_text = ches[i].labels[0].innerText
           target_str = target_str + label_text + ','
         }
@@ -188,7 +197,7 @@ var app = new Vue({
       this.have_eyes_num = this.get_have_eyes_num()
 
       this.send_grad_or_eyes_str('grad')
-      this.$nextTick(function(){
+      this.$nextTick(function() {
         this.send_grad_or_eyes_str('eyes')
       })
     },
