@@ -84,7 +84,9 @@ var app = new Vue({
       if (event.key === 'r') {
         window.location.href = '/annotate/' + next_rand_id + '?default_eye=0'
       } else if (event.key === 't') {
-        window.location.href = '/annotate/' + next_rand_id
+        window.location.href = '/annotate/' + this.koma_id
+      } else if (event.key === 'y') {
+        window.location.href = '/annotate/' + this.koma_id + '?default_eye=0'
       } else {
         var elems = document.querySelectorAll(`[value='${event.key}']`)
         if (elems[0]) { elems[0].checked = true }
@@ -99,7 +101,9 @@ var app = new Vue({
       if (event.key === 'r') {
         window.location.href = '/annotate/' + next_rand_id + '?default_eye=0'
       } else if (event.key === 't') {
-        window.location.href = '/annotate/' + next_rand_id
+        window.location.href = '/annotate/' + this.koma_id
+      } else if (event.key === 'y') {
+        window.location.href = '/annotate/' + this.koma_id + '?default_eye=0'
       } else if (event.key === 'Escape') {
         this.whos_str = ''
       } else if (event.key === 'q') {

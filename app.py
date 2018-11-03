@@ -70,11 +70,13 @@ def annotate(koma_id):
 @app.route('/save_annotate', methods=['POST'])
 # @requires_auth
 def save_annotate():
+    default_eye = request.args.get('default_eye', default=0, type=int)
+    print(request.args)
     # request.formのMultiDictだと変なlist型になるので普通のdictにする
     val_dict = {key: val for key, val in request.form.items()}
     update_step1(db, val_dict)
     next_rand_id = fetch_next_rand_id(db)
-    return redirect('/annotate/' + next_rand_id)
+    return redirect(f'/annotate/{next_rand_id}?default_eye={default_eye}')
 
 
 if __name__ == '__main__':
