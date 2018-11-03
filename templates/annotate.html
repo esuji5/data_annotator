@@ -76,27 +76,27 @@
         </div>
         <div class="col-sm-12">
           <input type="submit" class="primary small" :disabled="!is_can_save" style="float: right" v-bind:value="Number(step) === 1 ? '保存' : '※上書きします'">
-          <button v-on:click.stop="reset_who_value" class="secondary small" style="float: right">ここリセ</button>
+          <button type="reset" v-on:click.stop="reset_who_value" class="secondary small" style="float: right">ここリセ</button>
         </div>
       </div>
       <hr v-if="chara_num > 0" >
 
-      <div v-if="chara_num > 0" v-for="n, index in int_chara_num" class="row">
+      <div v-if="chara_num > 0" v-for="n, idx in int_chara_num" class="row">
         <div class="col-sm-3">
           <label style="padding: 0"><small>顔の方向[[n]]</small></label>
         </div>
         <div class="col-sm-9">
           <div class="input-group" v-on:click="change_eyes_num">
 
-            <template v-for="grad_num, index_j in grad_list">
+            <template v-for="grad_num, idx_j in grad_list">
               <input type="radio"
                tabindex="0"
-               v-bind:id="'rad_grad' + index_j + '-' + (index + 1)"
-               v-bind:name="'grad-' + (index + 1)"
-               v-bind:value="grad_list[index_j]"
+               v-bind:id="'rad_grad' + idx_j + '-' + (idx + 1)"
+               v-bind:name="'grad-' + (idx + 1)"
+               v-bind:value="grad_list[idx_j]"
                v-on:keyup="keymonitorGrad"
                >
-              <label v-bind:for="'rad_grad' + index_j + '-' + (index + 1)">[[grad_num]]</label>
+              <label v-bind:for="'rad_grad' + idx_j + '-' + (idx + 1)">[[grad_num]]</label>
             </template>
           </div>
         </div>
@@ -114,37 +114,49 @@
       </div>
 
       <hr>
-      <div v-if="have_eyes_num > 0" v-for="n, index in have_eyes_num" class="row">
+      <div v-if="have_eyes_num > 0" v-for="n, idx in have_eyes_num" class="row">
         <div class="col-sm-3">
-          <label style="padding: 0"><small>目の描写[[n]]</small></label>
+          <label style="padding: 0"><small>[[default_eye]]目の描写[[n]]</small></label>
         </div>
         <div class="col-sm-9">
           <div class="input-group" name="eyes_rad" v-on:click="send_grad_or_eyes_str('eyes')">
-            <input type="radio"
-             tabindex="0"
-             v-bind:id="'rad0_eyes' + Number(index)"
-             v-bind:name="'eyes-' + Number(index)"
-             v-on:keyup="keymonitorEyes"
-             >
-            <label v-bind:for="'rad0_eyes' + Number(index)">詳細</label>
+            <input v-if="Number(default_eye) == 0" type="radio"
+              tabindex="0"
+              checked
+              v-bind:id="'rad0_eyes' + Number(idx)"
+              v-bind:name="'eyes-' + Number(idx)"
+              v-on:keyup="keymonitorEyes"
+            >
+            <input v-if="Number(default_eye) != 0" type="radio"
+              tabindex="0"
+              v-bind:id="'rad0_eyes' + Number(idx)"
+              v-bind:name="'eyes-' + Number(idx)"
+              v-on:keyup="keymonitorEyes"
+            >
+            <label v-bind:for="'rad0_eyes' + Number(idx)">詳細</label>
 
             <input type="radio"
-             tabindex="0"
-             checked
-             v-bind:id="'rad2_eyes' + Number(index)"
-             v-bind:name="'eyes-' + Number(index)"
-             v-on:keyup="keymonitorEyes"
-             >
-            <label v-bind:for="'rad2_eyes' + Number(index)">隠れ</label>
+              tabindex="0"
+              v-bind:id="'rad2_eyes' + Number(idx)"
+              v-bind:name="'eyes-' + Number(idx)"
+              v-on:keyup="keymonitorEyes"
+            >
+            <label v-bind:for="'rad2_eyes' + Number(idx)">隠れ</label>
 
-            <input type="radio"
-             tabindex="0"
-             checked
-             v-bind:id="'rad1_eyes' + Number(index)"
-             v-bind:name="'eyes-' + Number(index)"
-             v-on:keyup="keymonitorEyes"
-             >
-            <label v-bind:for="'rad1_eyes' + Number(index)">デフォルメ</label>
+            <input v-if="Number(default_eye) == 1" type="radio"
+              tabindex="0"
+              checked
+              v-bind:id="'rad1_eyes' + Number(idx)"
+              v-bind:name="'eyes-' + Number(idx)"
+              v-on:keyup="keymonitorEyes"
+            >
+            <input v-if="Number(default_eye) != 1" type="radio"
+              tabindex="0"
+              v-bind:id="'rad1_eyes' + Number(idx)"
+              v-bind:name="'eyes-' + Number(idx)"
+              v-on:keyup="keymonitorEyes"
+            >
+            <label v-bind:for="'rad1_eyes' + Number(idx)">デフォルメ</label>
           </div>
         </div>
       </div>
@@ -201,9 +213,9 @@
   </ul>
 </div>
 
-{# <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script> #}
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.min.js"></script>
+{# <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script> #}
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
 {# <script src="{{ static_url(filename='js/annotate.js') }}"></script> #}
-{# <script src="{{ url_for('static', filename='js/annotate.js') }}"></script> #}
-<script src="{{ url_for('static', filename='js/annotate.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/annotate.js') }}"></script>
+{# <script src="{{ url_for('static', filename='js/annotate.min.js') }}"></script> #}
 {% endblock %}

@@ -16,6 +16,7 @@ var app = new Vue({
     grad_list: ['左向き前', '右向き前', '正面前', '背面'],
     chara_list: ['ゆ', '縁', '唯', '母', '千', '佳', 'ふ', '他'],
     eyes_list: ['詳細', '隠れ', 'デフォルメ'],
+    default_eye: '1',
   },
   mounted: function () {
     this.koma_id = koma_id
@@ -26,6 +27,10 @@ var app = new Vue({
     this.step = document.getElementById("step").value
     if (this.eyes_str) {
       this.have_eyes_num = this.eyes_str.split(',').length - 1
+    }
+    if (location.search.indexOf('default_eye') > 0) {
+      this.default_eye = location.search.substr(-1)
+      console.log(this.default_eye)
     }
   },
   computed: {
@@ -52,9 +57,6 @@ var app = new Vue({
     int_chara_num: function () {
       return Number(this.chara_num)
     },
-    eyes_strc: function () {
-      return this.eyes_str
-    },
   },
   filters: {
     captionFormat: function (date) {
@@ -80,7 +82,7 @@ var app = new Vue({
     },
     keymonitorCharaNum: function(event) {
       if (event.key === 'r') {
-        window.location.href = '/annotate/' + next_rand_id + '?default_eye='
+        window.location.href = '/annotate/' + next_rand_id + '?default_eye=0'
       } else if (event.key === 't') {
         window.location.href = '/annotate/' + next_rand_id
       } else {
@@ -95,7 +97,7 @@ var app = new Vue({
     },
     keymonitorWho: function(event) {
       if (event.key === 'r') {
-        window.location.href = '/annotate/' + next_rand_id
+        window.location.href = '/annotate/' + next_rand_id + '?default_eye=0'
       } else if (event.key === 't') {
         window.location.href = '/annotate/' + next_rand_id
       } else if (event.key === 'Escape') {
