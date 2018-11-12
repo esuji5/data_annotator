@@ -5,6 +5,7 @@ import furl
 
 # from basic_auth import requires_auth
 from data import get_image_data
+from data import get_page_data
 from data import get_step1_inputer_dict
 from data import get_graph_script
 from data import fetch_next_rand_id
@@ -65,6 +66,21 @@ def annotate(koma_id):
     next_rand_id = fetch_next_rand_id(db)
     return render_template('annotate.html', img_path=img_path, img_data=img_data,
                            koma_id=koma_id, next_rand_id=next_rand_id, avatar=get_avatar())
+
+
+@app.route('/confirm/<page_id_idx>')
+# @requires_auth
+def confirm(page_id_idx):
+    '''
+    page_id_idx: str
+    '''
+    page_id_idx = int(page_id_idx)
+    page_data = get_page_data(db, page_id_idx)
+    kanji, page = page_data[0]['kanji'], page_data[0]['page']
+    next_page_id_idx = page_id_idx + 1
+    return render_template('confirm.html', page_data=page_data,
+                           page_id_idx=page_id_idx, next_page_id_idx=next_page_id_idx,
+                           kanji=kanji, page=page, avatar=get_avatar())
 
 
 @app.route('/save_annotate', methods=['POST'])

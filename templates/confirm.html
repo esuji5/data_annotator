@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}annotate to {{ koma_id }}{% endblock %}
+{% block head %}
+  {{ super() }}
+{% endblock %}
+{% block content %}
+
+<input type="hidden" id="koma_id" value="{{ koma_id }}">
+
+<div id="confirm" class="container">
+  <h3>{{ kanji }}巻 {{ page }}ページ</h3>
+
+  {% for data in page_data%}
+  <div class="row">
+    <div class="col-sm-1">
+      <ul style="list-style-type: none; margin: 0 ; padding-left: 2px;">
+        <li>{{ data.chara_num|int }}</li>
+        <li>{{ data.whos|replace(",", ",<br>")|safe }}</li>
+
+        <li>
+          {{ data.eyes|replace("デフォルメ", "デ")|replace("詳細", "詳")|replace("隠れ", "隠")|replace(",", ",<br>")|safe }}
+        </li>
+        <li>
+          {{ data.face_direction|replace("正面前", "↓")|replace("左向き前", "←")|replace("右向き前", "→")|replace("背面", "↑")|replace(",", ",<br>")|safe }}
+        </li>
+      </table>
+    </div>
+    <div class="col-sm-10">
+      <a href="/annotate/{{ data.koma_id }}" target="blank">
+        <img src="{{ static_url(
+          filename=data.img_path.split('yuyu_data/')[-1]) }}"/>
+      </a>
+    </div>
+  </div>
+  {% endfor %}
+  <a href=/confirm/{{ next_page_id_idx }}><button type="button">次ページ </button></a>
+</div>
+{% endblock %}
