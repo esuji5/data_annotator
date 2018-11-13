@@ -32,6 +32,7 @@
       </a>
     </div>
   </div>
+  {% if loop.index == 4 %}<hr style="margin-bottom: 30px;">{% endif %}
   {% endfor %}
   <a href=/confirm/{{ next_page_id_idx }}><button type="button">次ページ </button></a>
 </div>
