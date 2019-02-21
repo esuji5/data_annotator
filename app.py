@@ -14,7 +14,7 @@ from data import update_step1
 # setup flask
 app = Flask(__name__)
 app.config.from_object(__name__)
-app.config.from_envvar('YUYU_DATA_SETTINGS')
+app.config.from_envvar('YUYU_DATA_SETTINGS', silent=True)
 if not app.config['DEBUG'] and not app.config['TESTING']:
     app.config['STATIC_URL'] = 'http://d1jm3kuvjv07m2.cloudfront.net'
 db = SQLAlchemy(app)
