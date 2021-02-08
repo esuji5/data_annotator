@@ -13,7 +13,7 @@ Flask-S3==0.3.3
 Flask-SQLAlchemy==2.3.2
 furl==2.0.0
 gunicorn==19.7.1
-httplib2==0.10.3
+httplib2==0.19.0
 idna==2.6
 itsdangerous==0.24
 Jinja2==2.10
